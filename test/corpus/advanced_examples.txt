@@ -1,0 +1,179 @@
+===================
+Complex Function Block
+===================
+
+FUNCTION_BLOCK FB_AdvancedController
+VAR_INPUT
+    Setpoint : REAL;                  // Target value
+    ActualValue : REAL;               // Measured process value
+    Kp : REAL := 1.0;                 // Proportional gain
+    Ki : REAL := 0.1;                 // Integral gain
+    Kd : REAL := 0.0;                 // Derivative gain
+    MinOutput : REAL := -100.0;       // Lower limit for output
+    MaxOutput : REAL := 100.0;        // Upper limit for output
+    Reset : BOOL;                     // Reset integrator
+    Enable : BOOL := TRUE;            // Enable controller
+    SampleTime : TIME := T#100MS;     // Sampling time
+END_VAR
+
+VAR_OUTPUT
+    Output : REAL;                    // Controller output
+    ErrorValue : REAL;                // Current error (Setpoint - ActualValue)
+    Status : INT;                     // Status information
+END_VAR
+
+VAR
+    integral : REAL := 0.0;           // Integral term
+    prevError : REAL := 0.0;          // Previous error for derivative calculation
+    prevTime : TIME;                  // Previous execution time
+    currTime : TIME;                  // Current execution time
+    deltaTime : REAL;                 // Time difference in seconds
+END_VAR
+
+// Get current time
+currTime := TIME_TCK();
+
+// Calculate time difference
+IF prevTime = T#0MS THEN
+    deltaTime := DINT_TO_REAL(TIME_TO_DINT(SampleTime)) / 1000.0;
+ELSE
+    deltaTime := DINT_TO_REAL(TIME_TO_DINT(currTime - prevTime)) / 1000.0;
+    
+    // Prevent division by zero or negative time
+    IF deltaTime <= 0.0 THEN
+        deltaTime := DINT_TO_REAL(TIME_TO_DINT(SampleTime)) / 1000.0;
+    END_IF;
+END_IF;
+
+// Store current time for next cycle
+prevTime := currTime;
+
+// Controller logic
+IF Enable THEN
+    // Calculate error
+    ErrorValue := Setpoint - ActualValue;
+    
+    // Proportional term
+    Output := Kp * ErrorValue;
+    
+    // Integral term (with anti-windup)
+    IF Reset THEN
+        integral := 0.0;
+    ELSE
+        integral := integral + ErrorValue * Ki * deltaTime;
+        
+        // Check for integrator windup
+        IF (Output > MaxOutput AND integral > 0.0) OR 
+           (Output < MinOutput AND integral < 0.0) THEN
+            // Don't accumulate integral term
+        ELSE
+            Output := Output + integral;
+        END_IF;
+    END_IF;
+    
+    // Derivative term
+    IF deltaTime > 0.0 THEN
+        Output := Output + Kd * (ErrorValue - prevError) / deltaTime;
+    END_IF;
+    
+    // Update previous error for next cycle
+    prevError := ErrorValue;
+    
+    // Limit output
+    IF Output > MaxOutput THEN
+        Output := MaxOutput;
+        Status := 1;  // Clamped at max
+    ELSIF Output < MinOutput THEN
+        Output := MinOutput;
+        Status := 2;  // Clamped at min
+    ELSE
+        Status := 0;  // Normal operation
+    END_IF;
+ELSE
+    // Controller disabled
+    Output := 0.0;
+    integral := 0.0;
+    prevError := 0.0;
+    Status := -1;  // Disabled
+END_IF;
+
+END_FUNCTION_BLOCK
+
+---
+
+===================
+Complex Data Types
+===================
+
+TYPE Coordinates : 
+  STRUCT
+    X : REAL;
+    Y : REAL;
+    Z : REAL;
+  END_STRUCT;
+END_TYPE
+
+TYPE Robot :
+  STRUCT
+    Name : STRING[30];
+    Position : Coordinates;
+    Joints : ARRAY[1..6] OF REAL;
+    Status : INT;
+    IsActive : BOOL;
+  END_STRUCT;
+END_TYPE
+
+VAR
+  MyRobot : Robot;
+  Robots : ARRAY[1..10] OF Robot;
+END_VAR
+
+// Initialize robot
+MyRobot.Name := 'Robot1';
+MyRobot.Position.X := 100.5;
+MyRobot.Position.Y := 200.3;
+MyRobot.Position.Z := 50.0;
+MyRobot.IsActive := TRUE;
+
+// Access array element
+Robots[1].Name := 'Robot in array';
+Robots[1].Joints[2] := 45.0;
+
+// Complex condition
+IF MyRobot.IsActive AND 
+   (MyRobot.Position.X > 100.0 OR
+    MyRobot.Position.Y > 200.0) THEN
+   
+   // Complex calculation
+   MyRobot.Position.Z := SQRT(MyRobot.Position.X * MyRobot.Position.X +
+                             MyRobot.Position.Y * MyRobot.Position.Y);
+END_IF;
+
+---
+
+===================
+Bit Operations
+===================
+
+VAR
+  Flag : BYTE := 16#A5;  // 10100101 in binary
+  Mask : BYTE := 16#F0;  // 11110000 in binary
+  Result : BYTE;
+END_VAR
+
+// Bitwise AND
+Result := Flag AND Mask;  // Should be 16#A0 (10100000)
+
+// Bitwise OR
+Result := Flag OR 2#00001111;  // Should be 16#AF (10101111)
+
+// Bitwise XOR
+Result := Flag XOR 16#FF;  // Bitwise complement = 16#5A (01011010)
+
+// Shift operations
+Result := SHL(IN := Flag, N := 2);  // Shift left 2 bits = 16#94 (10010100)
+Result := SHR(IN := Flag, N := 2);  // Shift right 2 bits = 16#29 (00101001)
+
+// Rotate operations
+Result := ROL(IN := Flag, N := 3);  // Rotate left 3 bits = 16#2D (00101101)
+Result := ROR(IN := Flag, N := 3);  // Rotate right 3 bits = 16#4A (01001010)

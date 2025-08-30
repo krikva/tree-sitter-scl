@@ -1,0 +1,119 @@
+===================
+Function block test
+===================
+
+FUNCTION_BLOCK FB_DeviceStates
+VAR_CONSTANT
+	// Set this to the exact number of bits you need (e.g. 24, 40, 64, ...)
+	MAX_BITS  : UINT := 64;
+	MAX_BYTES : UINT := (MAX_BITS + 7) / 8;
+END_VAR
+
+VAR_INPUT
+	// Set a bit
+	SetReq    : BOOL;     // rising edge not required; level-driven set
+	SetIndex  : UINT;     // 0..MAX_BITS-1
+	SetValue  : BOOL;
+
+	// Toggle a bit
+	ToggleReq  : BOOL;
+	ToggleIndex: UINT;
+END_VAR
+
+VAR_OUTPUT
+	GetValue  : BOOL;     // value at GetIndex
+	CountSet  : UINT;     // number of 1-bits
+END_VAR
+
+VAR
+	States    : ARRAY[0..MAX_BITS-1] OF BOOL; // compact internal bitset (allocates only MAX_BITS)
+	i         : UINT;
+END_VAR
+
+// Set a bit
+IF SetReq AND (SetIndex < MAX_BITS) THEN
+	States[SetIndex] := SetValue;
+END_IF;
+
+// Toggle a bit
+IF ToggleReq AND (ToggleIndex < MAX_BITS) THEN
+	States[ToggleIndex] := NOT States[ToggleIndex];
+END_IF;
+
+// Count set bits
+CountSet := 0;
+FOR i := 0 TO MAX_BITS - 1 DO
+	IF States[i] THEN
+		CountSet := CountSet + 1;
+	END_IF;
+END_FOR;
+
+END_FUNCTION_BLOCK
+
+---
+
+===================
+Function test
+===================
+
+FUNCTION FC_Calculate : REAL
+VAR_INPUT
+	a : REAL;
+	b : REAL;
+END_VAR
+
+VAR_TEMP
+	result : REAL;
+END_VAR
+
+// Calculate the square root of the sum of squares
+result := SQRT(a * a + b * b);
+
+// Return the result
+FC_Calculate := result;
+
+END_FUNCTION
+
+---
+
+===================
+If statement test
+===================
+
+IF value > 10 THEN
+	result := 'High';
+ELSIF value > 5 THEN
+	result := 'Medium';
+ELSE
+	result := 'Low';
+END_IF;
+
+---
+
+===================
+Case statement test
+===================
+
+CASE status OF
+	0:
+		message := 'Stopped';
+	1:
+		message := 'Running';
+	2..4:
+		message := 'Warning';
+	ELSE
+		message := 'Error';
+END_CASE;
+
+---
+
+===================
+Comments test
+===================
+
+// This is a line comment
+value := 10; // This is an end-of-line comment
+
+(* This is 
+   a block comment 
+   spanning multiple lines *)

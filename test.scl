@@ -1,0 +1,7 @@
+FUNCTION test : INT
+  VAR
+    x : INT;
+  END_VAR
+  x := 10;
+  RETURN;
+END_FUNCTION

@@ -1,0 +1,44 @@
+{
+  "name": "tree-sitter-scl",
+  "version": "0.1.0",
+  "description": "SCL (Structured Control Language) grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "tree-sitter",
+    "scl",
+    "siemens",
+    "plc"
+  ],
+  "dependencies": {
+    "nan": "^2.17.0",
+    "tree-sitter-scl": "^1.0.13"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krikva/tree-sitter-scl.git"
+  },
+  "scripts": {
+    "build": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "parse": "tree-sitter parse",
+    "playground": "tree-sitter playground"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.scl",
+      "file-types": [
+        "scl",
+        "SCL",
+        "udt",
+        "TcPOU",
+        "TcGVL",
+        "db"
+      ],
+      "content-regex": "FUNCTION_BLOCK|FUNCTION|DATA_BLOCK|VAR_INPUT|VAR_OUTPUT|VAR"
+    }
+  ]
+}
