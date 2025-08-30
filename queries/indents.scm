@@ -1,4 +1,4 @@
-;; Indentation for SCL
+; Indentation for SCL
 
 [
   (function_block)

@@ -1,12 +1,12 @@
-;; Folding for SCL
+; Folding for SCL
 
-;; Block-level folding
+; Block-level folding
 (function_block) @fold
 (function) @fold
 (data_block) @fold
 (organization_block) @fold
 
-;; Variable declaration sections
+; Variable declaration sections
 (var_section) @fold
 (var_input_section) @fold
 (var_output_section) @fold
@@ -16,10 +16,10 @@
 (const_section) @fold
 (type_section) @fold
 
-;; Struct definition
+; Struct definition
 (struct_declaration) @fold
 
-;; Control statements
+; Control statements
 (if_statement) @fold
 (case_statement) @fold
 (for_statement) @fold

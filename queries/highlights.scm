@@ -1,6 +1,6 @@
-;; Highlighting for SCL
+; Highlighting for SCL
 
-;; Keywords
+; Keywords
 (["FUNCTION" "function" 
   "FUNCTION_BLOCK" "function_block"
   "DATA_BLOCK" "data_block"
@@ -46,7 +46,7 @@
   "REGION" "region"
   "END_REGION" "end_region"] @keyword)
 
-;; Data Types
+; Data Types
 ([
   "BOOL" "bool"
   "BYTE" "byte"
@@ -76,7 +76,7 @@
   "POINTER" "pointer"
   "VOID" "void"] @type)
 
-;; Operators
+; Operators
 (["AND" "and"
   "OR" "or"
   "XOR" "xor"
@@ -84,10 +84,10 @@
   "MOD" "mod"
   "DIV" "div"] @keyword.operator)
 
-;; Assignment operator
+; Assignment operator
 (assignment_statement ":=" @operator)
 
-;; Identifiers
+; Identifiers
 (identifier) @identifier
 
 (variable_declaration 
@@ -100,7 +100,7 @@
 (function_call
   (identifier) @function)
 
-;; Literals
+; Literals
 (boolean_literal) @constant.builtin.boolean
 (number) @constant.numeric
 (string_literal) @string
@@ -108,11 +108,11 @@
 (date_literal) @constant.numeric
 (date_time_literal) @constant.numeric
 
-;; Punctuation
+; Punctuation
 ["," ":" ";" "(" ")" "[" "]" "{" "}" ] @punctuation.delimiter
 [".."] @punctuation.special
 
-;; Comments
+; Comments
 (comment) @comment
 (line_comment) @comment
 (block_comment) @comment
