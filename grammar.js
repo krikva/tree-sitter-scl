@@ -1,8 +1,14 @@
-// SCL Grammar for Tree-sitter
-// Based on Siemens SCL language
+/**
+ * @file tree sitter parser for siemens scl
+ * @author krikva
+ * @license MIT
+ */
+
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
 
 module.exports = grammar({
-  name: 'scl',
+  name: "scl",
 
   extras: $ => [
     /\s|\\\r?\n/,
@@ -12,10 +18,7 @@ module.exports = grammar({
   // Case insensitive
   word: $ => $.identifier,
 
-  // Add conflicts clause to resolve the case_element ambiguity
-  conflicts: $ => [
-    [$.case_element]
-  ],
+
 
   rules: {
     source_file: $ => repeat(choice(
@@ -33,19 +36,19 @@ module.exports = grammar({
 
     // Function block definition
     function_block: $ => seq(
-      caseInsensitive('FUNCTION_BLOCK'),
+      'FUNCTION_BLOCK',
       optional($.string),
       $.identifier,
       repeat($.variable_declaration_section),
       optional(seq(
         $.statement_list,
       )),
-      caseInsensitive('END_FUNCTION_BLOCK')
+      'END_FUNCTION_BLOCK'
     ),
 
     // Function definition
     function: $ => seq(
-      caseInsensitive('FUNCTION'),
+      'FUNCTION',
       optional($.string),
       $.identifier,
       optional(seq(
@@ -56,31 +59,31 @@ module.exports = grammar({
       optional(seq(
         $.statement_list,
       )),
-      caseInsensitive('END_FUNCTION')
+      'END_FUNCTION'
     ),
 
     // Data block definition
     data_block: $ => seq(
-      caseInsensitive('DATA_BLOCK'),
+      'DATA_BLOCK',
       optional($.string),
       $.identifier,
       repeat($.variable_declaration_section),
       optional(seq(
         $.statement_list,
       )),
-      caseInsensitive('END_DATA_BLOCK')
+      'END_DATA_BLOCK'
     ),
 
     // Organization block (specific to Siemens PLC)
     organization_block: $ => seq(
-      caseInsensitive('ORGANIZATION_BLOCK'),
+      'ORGANIZATION_BLOCK',
       optional($.string),
       $.identifier,
       repeat($.variable_declaration_section),
       optional(seq(
         $.statement_list,
       )),
-      caseInsensitive('END_ORGANIZATION_BLOCK')
+      'END_ORGANIZATION_BLOCK'
     ),
 
     // Variable declaration sections
@@ -96,54 +99,54 @@ module.exports = grammar({
     ),
 
     var_section: $ => seq(
-      caseInsensitive('VAR'),
+      'VAR',
       repeat($.variable_declaration),
-      caseInsensitive('END_VAR')
+      'END_VAR'
     ),
 
     var_input_section: $ => seq(
-      caseInsensitive('VAR_INPUT'),
+      'VAR_INPUT',
       repeat($.variable_declaration),
-      caseInsensitive('END_VAR')
+      'END_VAR'
     ),
 
     var_output_section: $ => seq(
-      caseInsensitive('VAR_OUTPUT'),
+      'VAR_OUTPUT',
       repeat($.variable_declaration),
-      caseInsensitive('END_VAR')
+      'END_VAR'
     ),
 
     var_in_out_section: $ => seq(
-      caseInsensitive('VAR_IN_OUT'),
+      'VAR_IN_OUT',
       repeat($.variable_declaration),
-      caseInsensitive('END_VAR')
+      'END_VAR'
     ),
 
     var_temp_section: $ => seq(
-      caseInsensitive('VAR_TEMP'),
+      'VAR_TEMP',
       repeat($.variable_declaration),
-      caseInsensitive('END_VAR')
+      'END_VAR'
     ),
 
     var_constant_section: $ => seq(
-      caseInsensitive('VAR_CONSTANT'),
+      'VAR_CONSTANT',
       repeat($.variable_declaration),
-      caseInsensitive('END_VAR')
+      'END_VAR'
     ),
 
     const_section: $ => seq(
-      caseInsensitive('CONST'),
+      'CONST',
       repeat($.variable_declaration),
-      caseInsensitive('END_CONST')
+      'END_CONST'
     ),
 
     type_section: $ => seq(
-      caseInsensitive('TYPE'),
+      'TYPE',
       repeat(choice(
         $.type_declaration,
         $.struct_declaration
       )),
-      caseInsensitive('END_TYPE')
+      'END_TYPE'
     ),
 
     // Variable declaration
@@ -164,7 +167,7 @@ module.exports = grammar({
     ),
 
     at_directive: $ => seq(
-      caseInsensitive('AT'),
+      'AT',
       $.memory_address
     ),
 
@@ -184,19 +187,19 @@ module.exports = grammar({
 
     // Struct definition
     struct_declaration: $ => seq(
-      caseInsensitive('STRUCT'),
+      'STRUCT',
       repeat($.variable_declaration),
-      caseInsensitive('END_STRUCT')
+      'END_STRUCT'
     ),
 
     // Array declaration
     array_declaration: $ => seq(
-      caseInsensitive('ARRAY'),
+      'ARRAY',
       '[',
       $.range,
       repeat(seq(',', $.range)),
       ']',
-      caseInsensitive('OF'),
+      'OF',
       $.data_type
     ),
 
@@ -209,33 +212,33 @@ module.exports = grammar({
     // Data types
     data_type: $ => choice(
       // Primitive types
-      caseInsensitive('BOOL'),
-      caseInsensitive('BYTE'),
-      caseInsensitive('WORD'),
-      caseInsensitive('DWORD'),
-      caseInsensitive('CHAR'),
-      caseInsensitive('SINT'),
-      caseInsensitive('INT'),
-      caseInsensitive('DINT'),
-      caseInsensitive('LINT'),
-      caseInsensitive('USINT'),
-      caseInsensitive('UINT'),
-      caseInsensitive('UDINT'),
-      caseInsensitive('ULINT'),
-      caseInsensitive('REAL'),
-      caseInsensitive('LREAL'),
-      caseInsensitive('TIME'),
-      caseInsensitive('DATE'),
-      caseInsensitive('TIME_OF_DAY'),
-      caseInsensitive('TOD'),
-      caseInsensitive('DATE_AND_TIME'),
-      caseInsensitive('DT'),
-      caseInsensitive('DTL'),
-      caseInsensitive('STRING'),
-      caseInsensitive('WSTRING'),
-      caseInsensitive('ANY'),
-      caseInsensitive('POINTER'),
-      caseInsensitive('VOID'),
+      'BOOL',
+      'BYTE',
+      'WORD',
+      'DWORD',
+      'CHAR',
+      'SINT',
+      'INT',
+      'DINT',
+      'LINT',
+      'USINT',
+      'UINT',
+      'UDINT',
+      'ULINT',
+      'REAL',
+      'LREAL',
+      'TIME',
+      'DATE',
+      'TIME_OF_DAY',
+      'TOD',
+      'DATE_AND_TIME',
+      'DT',
+      'DTL',
+      'STRING',
+      'WSTRING',
+      'ANY',
+      'POINTER',
+      'VOID',
       // User defined types
       $.identifier
     ),
@@ -266,36 +269,36 @@ module.exports = grammar({
 
     // If statement
     if_statement: $ => seq(
-      caseInsensitive('IF'),
+      'IF',
       $.expression,
-      caseInsensitive('THEN'),
+      'THEN',
       optional($.statement_list),
       repeat($.elsif_clause),
       optional($.else_clause),
-      caseInsensitive('END_IF'),
+      'END_IF',
       ';'
     ),
 
     elsif_clause: $ => seq(
-      caseInsensitive('ELSIF'),
+      'ELSIF',
       $.expression,
-      caseInsensitive('THEN'),
+      'THEN',
       optional($.statement_list)
     ),
 
     else_clause: $ => seq(
-      caseInsensitive('ELSE'),
+      'ELSE',
       optional($.statement_list)
     ),
 
     // Case statement
     case_statement: $ => seq(
-      caseInsensitive('CASE'),
+      'CASE',
       $.expression,
-      caseInsensitive('OF'),
+      'OF',
       repeat1($.case_element),
       optional($.else_case),
-      caseInsensitive('END_CASE'),
+      'END_CASE',
       ';'
     ),
 
@@ -319,60 +322,60 @@ module.exports = grammar({
     ),
 
     else_case: $ => seq(
-      caseInsensitive('ELSE'),
+      'ELSE',
       optional($.statement_list)
     ),
 
     // For statement
     for_statement: $ => seq(
-      caseInsensitive('FOR'),
+      'FOR',
       $.identifier,
       ':=',
       $.expression,
-      caseInsensitive('TO'),
+      'TO',
       $.expression,
       optional(seq(
-        caseInsensitive('BY'),
+        'BY',
         $.expression
       )),
-      caseInsensitive('DO'),
+      'DO',
       optional($.statement_list),
-      caseInsensitive('END_FOR'),
+      'END_FOR',
       ';'
     ),
 
     // While statement
     while_statement: $ => seq(
-      caseInsensitive('WHILE'),
+      'WHILE',
       $.expression,
-      caseInsensitive('DO'),
+      'DO',
       optional($.statement_list),
-      caseInsensitive('END_WHILE'),
+      'END_WHILE',
       ';'
     ),
 
     // Repeat statement
     repeat_statement: $ => seq(
-      caseInsensitive('REPEAT'),
+      'REPEAT',
       optional($.statement_list),
-      caseInsensitive('UNTIL'),
+      'UNTIL',
       $.expression,
-      caseInsensitive('END_REPEAT'),
+      'END_REPEAT',
       ';'
     ),
 
     // Return statement
     return_statement: $ => seq(
-      caseInsensitive('RETURN'),
+      'RETURN',
       ';'
     ),
 
     // Region
     region: $ => seq(
-      caseInsensitive('REGION'),
+      'REGION',
       optional($.string_literal),
       optional($.statement_list),
-      caseInsensitive('END_REGION')
+      'END_REGION'
     ),
 
     // Function call as a statement
@@ -427,11 +430,11 @@ module.exports = grammar({
       prec.left(2, seq($.expression, '-', $.expression)),
       prec.left(3, seq($.expression, '*', $.expression)),
       prec.left(3, seq($.expression, '/', $.expression)),
-      prec.left(3, seq($.expression, caseInsensitive('MOD'), $.expression)),
-      prec.left(3, seq($.expression, caseInsensitive('DIV'), $.expression)),
-      prec.left(1, seq($.expression, caseInsensitive('OR'), $.expression)),
-      prec.left(1, seq($.expression, caseInsensitive('XOR'), $.expression)),
-      prec.left(1, seq($.expression, caseInsensitive('AND'), $.expression)),
+      prec.left(3, seq($.expression, 'MOD', $.expression)),
+      prec.left(3, seq($.expression, 'DIV', $.expression)),
+      prec.left(1, seq($.expression, 'OR', $.expression)),
+      prec.left(1, seq($.expression, 'XOR', $.expression)),
+      prec.left(1, seq($.expression, 'AND', $.expression)),
       prec.left(1, seq($.expression, '>', $.expression)),
       prec.left(1, seq($.expression, '>=', $.expression)),
       prec.left(1, seq($.expression, '<', $.expression)),
@@ -443,7 +446,7 @@ module.exports = grammar({
     unary_expression: $ => choice(
       prec(4, seq('-', $.expression)),
       prec(4, seq('+', $.expression)),
-      prec(4, seq(caseInsensitive('NOT'), $.expression))
+      prec(4, seq('NOT', $.expression))
     ),
 
     parenthesized_expression: $ => seq(
@@ -475,8 +478,8 @@ module.exports = grammar({
     ),
 
     boolean_literal: $ => choice(
-      caseInsensitive('TRUE'),
-      caseInsensitive('FALSE')
+      'TRUE',
+      'FALSE'
     ),
 
     time_literal: $ => /[tT]#(([0-9]+d)?([0-9]+h)?([0-9]+m)?([0-9]+s)?([0-9]+ms)?)/,
@@ -524,9 +527,3 @@ module.exports = grammar({
     )
   }
 });
-
-function caseInsensitive(keyword) {
-  return new RegExp(keyword.split('').map(
-    letter => `[${letter.toLowerCase()}${letter.toUpperCase()}]`
-  ).join(''));
-}

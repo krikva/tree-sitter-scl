@@ -151,6 +151,7 @@
   {
     "type": "comment",
     "named": true,
+    "extra": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -647,6 +648,7 @@
   {
     "type": "source_file",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1161,6 +1163,322 @@
   },
   {
     "type": ">=",
+    "named": false
+  },
+  {
+    "type": "AND",
+    "named": false
+  },
+  {
+    "type": "ANY",
+    "named": false
+  },
+  {
+    "type": "ARRAY",
+    "named": false
+  },
+  {
+    "type": "AT",
+    "named": false
+  },
+  {
+    "type": "BOOL",
+    "named": false
+  },
+  {
+    "type": "BY",
+    "named": false
+  },
+  {
+    "type": "BYTE",
+    "named": false
+  },
+  {
+    "type": "CASE",
+    "named": false
+  },
+  {
+    "type": "CHAR",
+    "named": false
+  },
+  {
+    "type": "CONST",
+    "named": false
+  },
+  {
+    "type": "DATA_BLOCK",
+    "named": false
+  },
+  {
+    "type": "DATE",
+    "named": false
+  },
+  {
+    "type": "DATE_AND_TIME",
+    "named": false
+  },
+  {
+    "type": "DINT",
+    "named": false
+  },
+  {
+    "type": "DIV",
+    "named": false
+  },
+  {
+    "type": "DO",
+    "named": false
+  },
+  {
+    "type": "DT",
+    "named": false
+  },
+  {
+    "type": "DTL",
+    "named": false
+  },
+  {
+    "type": "DWORD",
+    "named": false
+  },
+  {
+    "type": "ELSE",
+    "named": false
+  },
+  {
+    "type": "ELSIF",
+    "named": false
+  },
+  {
+    "type": "END_CASE",
+    "named": false
+  },
+  {
+    "type": "END_CONST",
+    "named": false
+  },
+  {
+    "type": "END_DATA_BLOCK",
+    "named": false
+  },
+  {
+    "type": "END_FOR",
+    "named": false
+  },
+  {
+    "type": "END_FUNCTION",
+    "named": false
+  },
+  {
+    "type": "END_FUNCTION_BLOCK",
+    "named": false
+  },
+  {
+    "type": "END_IF",
+    "named": false
+  },
+  {
+    "type": "END_ORGANIZATION_BLOCK",
+    "named": false
+  },
+  {
+    "type": "END_REGION",
+    "named": false
+  },
+  {
+    "type": "END_REPEAT",
+    "named": false
+  },
+  {
+    "type": "END_STRUCT",
+    "named": false
+  },
+  {
+    "type": "END_TYPE",
+    "named": false
+  },
+  {
+    "type": "END_VAR",
+    "named": false
+  },
+  {
+    "type": "END_WHILE",
+    "named": false
+  },
+  {
+    "type": "FALSE",
+    "named": false
+  },
+  {
+    "type": "FOR",
+    "named": false
+  },
+  {
+    "type": "FUNCTION",
+    "named": false
+  },
+  {
+    "type": "FUNCTION_BLOCK",
+    "named": false
+  },
+  {
+    "type": "IF",
+    "named": false
+  },
+  {
+    "type": "INT",
+    "named": false
+  },
+  {
+    "type": "LINT",
+    "named": false
+  },
+  {
+    "type": "LREAL",
+    "named": false
+  },
+  {
+    "type": "MOD",
+    "named": false
+  },
+  {
+    "type": "NOT",
+    "named": false
+  },
+  {
+    "type": "OF",
+    "named": false
+  },
+  {
+    "type": "OR",
+    "named": false
+  },
+  {
+    "type": "ORGANIZATION_BLOCK",
+    "named": false
+  },
+  {
+    "type": "POINTER",
+    "named": false
+  },
+  {
+    "type": "REAL",
+    "named": false
+  },
+  {
+    "type": "REGION",
+    "named": false
+  },
+  {
+    "type": "REPEAT",
+    "named": false
+  },
+  {
+    "type": "RETURN",
+    "named": false
+  },
+  {
+    "type": "SINT",
+    "named": false
+  },
+  {
+    "type": "STRING",
+    "named": false
+  },
+  {
+    "type": "STRUCT",
+    "named": false
+  },
+  {
+    "type": "THEN",
+    "named": false
+  },
+  {
+    "type": "TIME",
+    "named": false
+  },
+  {
+    "type": "TIME_OF_DAY",
+    "named": false
+  },
+  {
+    "type": "TO",
+    "named": false
+  },
+  {
+    "type": "TOD",
+    "named": false
+  },
+  {
+    "type": "TRUE",
+    "named": false
+  },
+  {
+    "type": "TYPE",
+    "named": false
+  },
+  {
+    "type": "UDINT",
+    "named": false
+  },
+  {
+    "type": "UINT",
+    "named": false
+  },
+  {
+    "type": "ULINT",
+    "named": false
+  },
+  {
+    "type": "UNTIL",
+    "named": false
+  },
+  {
+    "type": "USINT",
+    "named": false
+  },
+  {
+    "type": "VAR",
+    "named": false
+  },
+  {
+    "type": "VAR_CONSTANT",
+    "named": false
+  },
+  {
+    "type": "VAR_INPUT",
+    "named": false
+  },
+  {
+    "type": "VAR_IN_OUT",
+    "named": false
+  },
+  {
+    "type": "VAR_OUTPUT",
+    "named": false
+  },
+  {
+    "type": "VAR_TEMP",
+    "named": false
+  },
+  {
+    "type": "VOID",
+    "named": false
+  },
+  {
+    "type": "WHILE",
+    "named": false
+  },
+  {
+    "type": "WORD",
+    "named": false
+  },
+  {
+    "type": "WSTRING",
+    "named": false
+  },
+  {
+    "type": "XOR",
     "named": false
   },
   {
