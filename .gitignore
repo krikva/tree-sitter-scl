@@ -1,12 +1,41 @@
-# Build artifacts
+
+# Rust artifacts
+target/
+
+# Node artifacts
 build/
-*.o
-*.a
-*.so
-*.dylib
-*.dll
-*.log
+prebuilds/
 node_modules/
 
+# Swift artifacts
+.build/
 
+# Go artifacts
+_obj/
 
+# Python artifacts
+.venv/
+dist/
+*.egg-info
+*.whl
+
+# C artifacts
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.pc
+
+# Example dirs
+/examples/*/
+
+# Grammar volatiles
+*.wasm
+*.obj
+*.o
+
+# Archives
+*.tar.gz
+*.tgz
+*.zip
