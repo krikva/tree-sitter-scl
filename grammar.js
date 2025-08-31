@@ -21,7 +21,6 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.statement_list, $.statement],
-    [$.statement_list, $.statement, $.region],
     [$.function_block, $.statement_list, $.statement],
     [$.function_block, $.statement_list],
     [$.function, $.statement_list, $.statement],
@@ -81,10 +80,13 @@ module.exports = grammar({
     // Data block definition
     data_block: $ => seq(
       'DATA_BLOCK',
-      $.string,
-      $.configuration_block,
-      $.version_declaration,
-      repeat(choice($.comment, $.variable_declaration_section)),
+      choice($.string, $.identifier),
+      repeat(choice(
+        $.configuration_block,
+        $.version_declaration,
+        $.comment, 
+        $.variable_declaration_section
+      )),
       'BEGIN',
       optional($.statement_list),
       'END_DATA_BLOCK'
@@ -443,13 +445,12 @@ module.exports = grammar({
     // Region
     region: $ => prec.right(seq(
       'REGION',
-      optional(choice(
+      optional(field('name', choice(
         $.string_literal, 
         $.identifier,
         // Allow region names that are multiple words (as seen in the examples)
-        /[a-zA-Z_][a-zA-Z0-9_ ]+/,
-        $.comment
-      )),
+        /[a-zA-Z_][a-zA-Z0-9_ ]+/
+      ))),
       optional($.statement_list),
       'END_REGION',
       optional(';')

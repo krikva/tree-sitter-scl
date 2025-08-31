@@ -1,0 +1,273 @@
+// SCL Syntax Highlighting Test File
+
+// This file demonstrates the various syntax elements in SCL
+// and how they should be highlighted by the tree-sitter grammar.
+
+FUNCTION_BLOCK MyTestBlock
+// ^ keyword
+    // Block comment - should be highlighted as a comment
+    // ^ comment
+    (* This is a block comment *)
+    // ^ comment.block
+    
+    // Variable declarations
+    VAR_INPUT
+    // ^ keyword
+        // Input variables
+        input1 : INT := 10;  // With initialization
+        // ^ variable
+        //        ^ type.builtin
+        //            ^ operator
+        //               ^ constant.numeric
+        input2 : REAL;       // Without initialization
+        // ^ variable
+        //        ^ type.builtin
+        input3 : BOOL := TRUE; // Boolean initialization
+        // ^ variable
+        //        ^ type.builtin
+        //            ^ operator
+        //                ^ constant.builtin.boolean
+    END_VAR
+    // ^ keyword
+    
+    VAR_OUTPUT
+    // ^ keyword
+        // Output variables
+        output1 : INT;
+        // ^ variable
+        //         ^ type.builtin
+        output2 : REAL;
+        // ^ variable
+        //         ^ type.builtin
+    END_VAR
+    // ^ keyword
+    
+    VAR
+  // ^ keyword
+        // Local variables
+        local1 : INT;
+        // ^ variable
+        //        ^ type.builtin
+        local2 : ARRAY[1..10] OF INT;  // Array declaration
+        // ^ variable
+        //        ^ keyword
+        //             ^ constant.numeric
+        //                 ^ constant.numeric
+        //                    ^ keyword
+        //                        ^ type.builtin
+        local3 : STRUCT              // Struct declaration
+        // ^ variable
+        //        ^ keyword
+            x : INT;
+         // ^ variable
+           //    ^ type.builtin
+            y : REAL;
+         // ^ variable
+            //    ^ type.builtin
+            z : BOOL;
+         // ^ variable
+           //    ^ type.builtin
+        END_STRUCT;
+        // ^ keyword
+    END_VAR
+    // ^ keyword
+
+    // Program logic begins here
+    BEGIN
+    // ^ keyword
+        // If statement with boolean constants
+        IF input3 = TRUE THEN
+      // ^ keyword
+        //    ^ variable
+      //          ^ operator
+        //            ^ constant.builtin.boolean
+        //                 ^ keyword
+            output1 := 100;
+          // ^ variable
+            //       ^ operator
+            //          ^ constant.numeric
+        ELSIF input1 > 20 THEN
+      // ^ keyword
+        //      ^ variable
+      //             ^ operator
+       //               ^ constant.numeric
+        //                  ^ keyword
+            output1 := 200;
+          // ^ variable
+            //       ^ operator
+            //          ^ constant.numeric
+        ELSE
+      // ^ keyword
+            output1 := 300;
+            // ^ variable
+            //       ^ operator
+            //          ^ constant.numeric
+        END_IF;
+        // ^ keyword
+        
+        // Case statement with case values
+        CASE input1 OF
+      // ^ keyword
+        //     ^ variable
+       //            ^ keyword
+            0:  output1 := 0;
+         // ^ constant.numeric
+            //    ^ variable
+            //           ^ operator
+            //              ^ constant.numeric
+            1..5: output1 := 10;
+         // ^ constant.numeric
+         //    ^ constant.numeric
+           //       ^ variable
+           //              ^ operator
+           //                 ^ constant.numeric
+            10: output1 := 100;
+         // ^ constant.numeric
+           //    ^ variable
+            //           ^ operator
+            //              ^ constant.numeric
+            ELSE output1 := -1;
+          // ^ keyword
+            //     ^ variable
+           //            ^ operator
+            //     KZ           ^ constant.numeric
+        END_CASE;
+        // ^ keyword
+        
+        // For loop
+        FOR local1 := 1 TO 10 BY 1 DO
+      // ^ keyword
+        //      ^ variable
+        //         ^ operator
+        //            ^ constant.numeric
+        //              ^ keyword
+        //                 ^ constant.numeric
+        //                    ^ keyword
+        //                       ^ constant.numeric
+        //                         ^ keyword
+            local2[local1] := local1 * 10;
+            // ^ variable
+            //       ^ variable
+            //              ^ operator
+            //                  ^ variable
+            //                       ^ operator
+            //                         ^ constant.numeric
+        END_FOR;
+        // ^ keyword
+        
+        // Time literal
+        local1 := T#5s;
+        // ^ variable
+        //      ^ operator
+        //          ^ constant.builtin
+        
+        // Date literal
+        local1 := D#2025-08-31;
+        // ^ variable
+        //      ^ operator
+        //          ^ constant.builtin
+        
+        // Function call
+        output2 := SQRT(100.0);
+        // ^ variable
+        //       ^ operator
+        //          ^ function.call
+        //               ^ constant.numeric
+    END_FUNCTION_BLOCK
+    // ^ keyword
+
+FUNCTION CalcAverage : REAL
+// ^ keyword
+//         ^ function.definition
+//                       ^ type.builtin
+    VAR_INPUT
+    // ^ keyword
+        value1 : REAL;
+        // ^ variable
+        //       ^ type.builtin
+        value2 : REAL;
+        // ^ variable
+        //       ^ type.builtin
+    END_VAR
+    // ^ keyword
+    
+    // Function calculation
+    CalcAverage := (value1 + value2) / 2.0;
+    // ^ variable
+    //           ^ operator
+    //               ^ variable
+    //                     ^ operator
+    //                        ^ variable
+    //                               ^ operator
+    //                                  ^ constant.numeric
+END_FUNCTION
+// ^ keyword
+
+// Data block example
+DATA_BLOCK "MyDataBlock"
+// ^ keyword
+//            ^ function.definition
+    VERSION : 0.1;
+    // ^ keyword
+    //      ^ punctuation.delimiter
+    //         ^ constant.numeric
+    
+    VAR
+  // ^ keyword
+        data1 : INT := 42;
+        // ^ variable
+        //       ^ type.builtin
+        //           ^ operator
+        //              ^ constant.numeric
+        data2 : STRING := 'Hello SCL';
+        // ^ variable
+        //       ^ type.builtin
+        //              ^ operator
+        //                  ^ string
+    END_VAR
+    // ^ keyword
+    
+    BEGIN
+    // ^ keyword
+        data1 := 100;
+        // ^ variable
+        //     ^ operator
+        //         ^ constant.numeric
+    END_DATA_BLOCK
+    // ^ keyword
+
+// Region example for code organization
+    REGION Configuration Parameters
+  // ^ keyword 
+  //        ^ comment
+        // If statement with boolean constants
+        IF input3 = TRUE THEN
+      // ^ keyword
+        //    ^ variable
+      //          ^ operator
+        //            ^ constant.builtin.boolean
+        //                 ^ keyword
+            output1 := 100;
+          // ^ variable
+            //       ^ operator
+            //          ^ constant.numeric
+        ELSIF input1 > 20 THEN
+      // ^ keyword
+        //      ^ variable
+      //             ^ operator
+       //               ^ constant.numeric
+        //                  ^ keyword
+            output1 := 200;
+          // ^ variable
+            //       ^ operator
+            //          ^ constant.numeric
+        ELSE
+      // ^ keyword
+            output1 := 300;
+            // ^ variable
+            //       ^ operator
+            //          ^ constant.numeric
+        END_IF;
+        // ^ keyword
+    END_REGION
+  // ^ keyword

@@ -1,0 +1,120 @@
+FUNCTION_BLOCK MyBlock
+// ^ keyword
+   
+    VAR_INPUT
+    // ^ keyword
+        input1 : INT := 0;
+        // ^ variable
+        //        ^ type.builtin
+        //              ^ constant.numeric
+    END_VAR
+    // ^ keyword
+
+    VAR_OUTPUT
+        output1 : REAL;
+        // ^ variable
+        //         ^ type.builtin
+    END_VAR
+
+    VAR
+        local1 : BOOL := TRUE;
+        // ^ variable
+        //        ^ type.builtin
+        //             ^ operator
+        //                ^ constant.builtin.boolean
+    END_VAR
+    
+    // This is an inline comment
+    // ^ comment
+    
+    (* This is a block comment *)
+    // ^ comment.block
+    
+BEGIN
+// ^ keyword
+
+    IF input1 > 10 THEN
+   //^ keyword
+   //    ^ variable
+   //         ^ operator
+   //           ^ constant.numeric
+   //                ^ keyword
+        output1 := 3.14;
+        // ^ variable
+        //       ^ operator
+        //          ^ constant.numeric
+    ELSIF input1 = 5 THEN
+    // ^ keyword
+    //           ^ operator
+        output1 := 2.71;
+    ELSE
+    // ^ keyword
+        output1 := 0.0;
+    END_IF;
+    // ^ keyword
+    
+    CASE input1 OF
+    // ^ keyword
+    //          ^ keyword
+        1: output1 := 1.0;
+                    // ^ constant.numeric
+        //          ^ operator
+        2..5: output1 := 2.0;
+        // ^ constant.numeric
+        10: output1 := 10.0;
+    END_CASE;
+    // ^ keyword
+    
+    FOR i := 0 TO 10 BY 2 DO
+    //^ keyword
+    //  ^ variable
+    //     ^ operator
+    //       ^ constant.numeric
+    //         ^ keyword
+    //            ^ constant.numeric
+    //               ^ keyword
+    //                  ^ constant.numeric
+    //                    ^ keyword
+        local1 := NOT local1;
+        // ^ variable
+        //     ^ operator
+        //        ^ operator
+        //              ^ variable
+    END_FOR;
+    // ^ keyword
+    
+    time_var := T#5m30s;
+    // ^ variable
+    //       ^ operator
+    //           ^ constant.builtin
+    
+    date_var := D#2022-08-15;
+    // ^ variable
+    //       ^ operator
+    //            ^ constant.builtin
+    
+END_FUNCTION_BLOCK
+// ^ keyword
+
+FUNCTION "MyFunction" : INT
+// ^ keyword
+//         ^ function.definition
+//                       ^ type.builtin
+    VAR_INPUT
+        param1 : INT;
+        // ^ variable
+    END_VAR
+    
+    MyFunction := param1 * 2;
+    // ^ variable
+    //         ^ operator
+    //              ^ variable
+    //                   ^ operator
+    //                     ^ constant.numeric
+END_FUNCTION
+// ^ keyword
+
+// Function call
+result := MyFunction(10);
+//        ^ function.call
+//                   ^ constant.numeric

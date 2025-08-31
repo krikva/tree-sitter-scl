@@ -10,7 +10,12 @@
         "scl"
       ],
       "injection-regex": "^scl$",
-      "class-name": "TreeSitterScl"
+      "class-name": "TreeSitterScl",
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "locals": "queries/locals.scm",
+      "indents": "queries/indents.scm",
+      "tags": "queries/tags.scm"
     }
   ],
   "metadata": {

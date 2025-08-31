@@ -1,5 +1,27 @@
 {
+  "name": "tree-sitter-scl",
+  "version": "1.0.0",
+  "description": "SCL grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parsing",
+    "incremental",
+    "tree-sitter",
+    "scl",
+    "siemens"
+  ],
   "dependencies": {
     "tree-sitter-cli": "^0.25.8"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.scl",
+      "file-types": ["scl"],
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "locals": "queries/locals.scm",
+      "indents": "queries/indents.scm",
+      "tags": "queries/tags.scm"
+    }
+  ]
 }
