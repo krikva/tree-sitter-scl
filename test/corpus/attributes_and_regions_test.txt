@@ -1,0 +1,220 @@
+===================
+System Attributes Test
+===================
+
+FUNCTION_BLOCK "FB_WithAttributes"
+{ S7_Optimized_Access := 'TRUE' }
+{ S7_AdvancedErrorHandling := 'TRUE' }
+{ S7_SetOBStatus := 'TRUE' }
+{ ExternalAccessible := 'TRUE' }
+{ ExternalVisible := 'TRUE' }
+{ ExternalWritable := 'TRUE' }
+{ InstructionName := 'CustomInstruction' }
+{ LibVersion := '1.0' }
+
+VAR
+    data1 : INT;
+    data2 : REAL;
+END_VAR
+
+BEGIN
+    data1 := 42;
+    data2 := 3.14;
+END_FUNCTION_BLOCK
+
+---
+
+(source_file
+  (program_organization_unit
+    (function_block
+      (string
+        (identifier))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (configuration_block
+        (identifier)
+        (string_literal))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (number)))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (number)))))))))
+
+===================
+Nested Regions Test
+===================
+
+FUNCTION "NestedRegionsTest" : VOID
+VAR
+    x : INT := 0;
+    y : INT := 0;
+END_VAR
+
+BEGIN
+    REGION Outer Region
+        x := 10;
+        
+        REGION Inner Region 1
+            x := x + 5;
+            y := x * 2;
+        END_REGION;
+        
+        y := y + 1;
+        
+        REGION Inner Region 2
+            x := x - 3;
+            y := y - x;
+        END_REGION;
+    END_REGION;
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (number))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (number))))))
+      (statement_list
+        (statement
+          (region
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (number)))))
+              (statement
+                (region
+                  (statement_list
+                    (statement
+                      (assignment_statement
+                        (variable_access
+                          (variable_base
+                            (identifier)))
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (literal
+                                (number)))))))
+                    (statement
+                      (assignment_statement
+                        (variable_access
+                          (variable_base
+                            (identifier)))
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (literal
+                                (number))))))))))
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (binary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (expression
+                        (literal
+                          (number)))))))
+              (statement
+                (region
+                  (statement_list
+                    (statement
+                      (assignment_statement
+                        (variable_access
+                          (variable_base
+                            (identifier)))
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (literal
+                                (number)))))))
+                    (statement
+                      (assignment_statement
+                        (variable_access
+                          (variable_base
+                            (identifier)))
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))))))))))))))))

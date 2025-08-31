@@ -1,0 +1,496 @@
+===================
+Extended Time Literals
+===================
+
+FUNCTION_BLOCK "TimeFormatTest"
+VAR
+    // Various time literal formats
+    t1 : TIME := T#5s;
+    t2 : TIME := T#10ms;
+    t3 : TIME := T#1h30m;
+    t4 : TIME := T#1d4h15m30s;
+    t5 : TIME := T#1d;
+    t6 : TIME := T#0ms;
+    t7 : TIME := TIME#5s;
+    t8 : TIME := TIME#10h20m30s;
+END_VAR
+BEGIN
+    // Time comparison
+    IF t1 > t2 THEN
+        t3 := t1 + t2;
+    END_IF;
+END_FUNCTION_BLOCK
+
+---
+
+(source_file
+  (program_organization_unit
+    (function_block
+      (string
+        (identifier))
+      (variable_declaration_section
+        (var_section
+          (comment)
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (if_statement
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (binary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier)))))))))))))))
+
+===================
+Comment Styles Test
+===================
+
+FUNCTION "CommentTest" : VOID
+VAR_INPUT
+    in1 : INT;
+END_VAR
+VAR
+    local1 : INT;
+    local2 : BOOL;
+END_VAR
+
+BEGIN
+    // Line comment
+    local1 := 10;
+    
+    (* Block comment style 1
+       Multiline comment
+    *)
+    local2 := TRUE;
+    
+    (/* Block comment style 2
+        Alternative multiline comment
+    */)
+    local1 := in1 + 5;
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (number)))))
+        (block_comment)
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (boolean_literal)))))
+        (block_comment)
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (literal
+                    (number)))))))))))
+
+===================
+Control Flow Statements
+===================
+
+FUNCTION "ControlFlowTest" : INT
+VAR_INPUT
+    value : INT;
+END_VAR
+VAR
+    i : INT;
+    j : INT;
+    result : INT;
+END_VAR
+
+BEGIN
+    // Continue and Break test
+    FOR i := 1 TO 10 DO
+        IF i = 5 THEN
+            CONTINUE;  // Skip the rest for i=5
+        END_IF;
+        
+        IF i = 8 THEN
+            BREAK;     // Exit the loop at i=8
+        END_IF;
+        
+        result := result + i;
+    END_FOR;
+    
+    // Goto and Label test
+    IF value < 0 THEN
+        GOTO negative_value;
+    END_IF;
+    
+    result := result * 2;
+    RETURN;
+    
+    LABEL negative_value
+        result := -result;
+        EXIT;         // Exit the function
+    END_LABEL;
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (for_statement
+            (identifier)
+            (expression
+              (literal
+                (number)))
+            (expression
+              (literal
+                (number)))
+            (statement_list
+              (statement
+                (if_statement
+                  (expression
+                    (binary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (expression
+                        (literal
+                          (number)))))
+                  (statement_list
+                    (statement
+                      (continue_statement))
+                    (statement
+                      (comment)))))
+              (statement
+                (if_statement
+                  (expression
+                    (binary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (expression
+                        (literal
+                          (number)))))
+                  (statement_list
+                    (statement
+                      (break_statement))
+                    (statement
+                      (comment)))))
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (binary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier)))))))))))
+        (statement
+          (comment))
+        (statement
+          (if_statement
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (literal
+                    (number)))))
+            (statement_list
+              (statement
+                (goto_statement
+                  (identifier))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (literal
+                    (number)))))))
+        (statement
+          (return_statement))
+        (statement
+          (label_statement
+            (identifier)
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (unary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))))))
+              (statement
+                (exit_statement))
+              (statement
+                (comment)))))))))
+
+===================
+Region Test
+===================
+
+FUNCTION_BLOCK "RegionTest"
+VAR
+    x : INT;
+    y : REAL;
+    z : BOOL;
+END_VAR
+
+BEGIN
+    x := 10;
+    y := 3.14;
+    z := TRUE;
+    
+    REGION Configuration Parameters
+        // Configuration code
+        x := 20;
+        y := 2.71;
+    END_REGION;
+    
+    REGION Helper Functions
+        // Helper code
+        IF x > 15 THEN
+            z := FALSE;
+        END_IF;
+    END_REGION;
+END_FUNCTION_BLOCK
+
+---
+
+(source_file
+  (program_organization_unit
+    (function_block
+      (string
+        (identifier))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (number)))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (number)))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (boolean_literal)))))
+        (statement
+          (region
+            (statement_list
+              (statement
+                (comment))
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (number)))))
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (number))))))))
+        (statement
+          (region
+            (statement_list
+              (statement
+                (comment))
+              (statement
+                (if_statement
+                  (expression
+                    (binary_expression
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (expression
+                        (literal
+                          (number)))))
+                  (statement_list
+                    (statement
+                      (assignment_statement
+                        (variable_access
+                          (variable_base
+                            (identifier)))
+                        (expression
+                          (literal
+                            (boolean_literal)))))))))))))))

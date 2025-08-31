@@ -1,0 +1,788 @@
+===================
+Data Conversion Functions
+===================
+
+FUNCTION "DataConversionTest" : VOID
+VAR_INPUT
+    i_int : INT;
+    i_real : REAL;
+    i_bool : BOOL;
+    i_byte : BYTE;
+    i_word : WORD;
+    i_dword : DWORD;
+    i_string : STRING;
+END_VAR
+
+VAR_OUTPUT
+    o_int : INT;
+    o_real : REAL;
+    o_bool : BOOL;
+    o_byte : BYTE;
+    o_word : WORD;
+    o_dword : DWORD;
+    o_string : STRING;
+END_VAR
+
+VAR
+    temp : DINT;
+END_VAR
+
+BEGIN
+    // Bool conversions
+    o_byte := bool_to_byte(i_bool);
+    o_dword := bool_to_dword(i_bool);
+    o_word := bool_to_word(i_bool);
+    o_int := bool_to_int(i_bool);
+    temp := bool_to_dint(i_bool);
+    
+    // Byte conversions
+    o_bool := byte_to_bool(i_byte);
+    // char conversion would be here
+    o_dword := byte_to_dword(i_byte);
+    o_int := byte_to_int(i_byte);
+    temp := byte_to_dint(i_byte);
+    o_word := byte_to_word(i_byte);
+    
+    // Char conversions
+    // Various char conversions would be here
+    
+    // Date conversions
+    temp := date_to_dint(D#2025-08-31);
+    
+    // DINT conversions
+    o_bool := dint_to_bool(temp);
+    o_byte := dint_to_byte(temp);
+    o_word := dint_to_word(temp);
+    o_dword := dint_to_dword(temp);
+    // Various other DINT conversions
+    o_real := dint_to_real(temp);
+    o_string := dint_to_string(temp);
+    
+    // DWORD conversions
+    o_bool := dword_to_bool(i_dword);
+    o_byte := dword_to_byte(i_dword);
+    temp := dword_to_dint(i_dword);
+    o_real := dword_to_real(i_dword);
+    o_word := dword_to_word(i_dword);
+    o_int := dword_to_int(i_dword);
+    
+    // Word conversions
+    o_bool := word_to_bool(i_word);
+    o_byte := word_to_byte(i_word);
+    o_int := word_to_int(i_word);
+    temp := word_to_dint(i_word);
+    o_dword := word_to_dword(i_word);
+    // Block DB conversion would be here
+    
+    // String conversions
+    // char conversion would be here
+    o_int := string_to_int(i_string);
+    o_real := string_to_real(i_string);
+    
+    // Time conversions
+    temp := time_to_dint(T#10s);
+    
+    // INT conversions
+    o_bool := int_to_bool(i_int);
+    o_byte := int_to_byte(i_int);
+    o_word := int_to_word(i_int);
+    o_dword := int_to_dword(i_int);
+    // Various other INT conversions
+    o_real := int_to_real(i_int);
+    o_string := int_to_string(i_int);
+    
+    // Real conversions
+    o_dword := real_to_dword(i_real);
+    // Various SINT conversions would be here
+    o_int := real_to_int(i_real);
+    temp := real_to_dint(i_real);
+    o_string := real_to_string(i_real);
+    
+    // BCD conversions
+    o_int := bcd_to_int(i_byte);
+    temp := bcd_to_dint(i_word);
+    o_int := word_bcd_to_int(i_word);
+    temp := dword_bcd_to_dint(i_dword);
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (string_declaration))))
+      (variable_declaration_section
+        (var_output_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (string_declaration))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (comment))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (literal
+                      (date_literal))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (comment))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (literal
+                      (time_literal))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))))))

@@ -1,0 +1,1232 @@
+===================
+Math Functions Test
+===================
+
+FUNCTION "MathFunctionsTest" : REAL
+VAR_INPUT
+    angle : REAL;
+    value : REAL;
+END_VAR
+VAR
+    result : REAL;
+    absResult : REAL;
+    sqrResult : REAL;
+    sqrtResult : REAL;
+    expResult : REAL;
+    expdResult : REAL;
+    lnResult : REAL;
+    logResult : REAL;
+    sinResult : REAL;
+    cosResult : REAL;
+    tanResult : REAL;
+    asinResult : REAL;
+    acosResult : REAL;
+    atanResult : REAL;
+    roundResult : REAL;
+    truncResult : REAL;
+END_VAR
+
+BEGIN
+    // Basic math functions
+    absResult := ABS(value);
+    sqrResult := SQR(value);
+    sqrtResult := SQRT(ABS(value));  // Ensure positive input for SQRT
+    
+    // Exponential and logarithmic functions
+    expResult := EXP(value);
+    expdResult := EXPD(value);
+    
+    // Only compute logarithms for positive values
+    IF value > 0.0 THEN
+        lnResult := LN(value);
+        logResult := LOG(value);
+    END_IF;
+    
+    // Trigonometric functions
+    sinResult := SIN(angle);
+    cosResult := COS(angle);
+    tanResult := TAN(angle);
+    
+    // Inverse trigonometric functions - domain restrictions
+    IF value >= -1.0 AND value <= 1.0 THEN
+        asinResult := ASIN(value);
+        acosResult := ACOS(value);
+    END_IF;
+    atanResult := ATAN(value);
+    
+    // Rounding functions
+    roundResult := ROUND(value);
+    truncResult := TRUNC(value);
+    
+    // Combining multiple functions
+    result := (SQR(sinResult) + SQR(cosResult)) * SQRT(ABS(value));
+    
+    MathFunctionsTest := result;
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))))))))))
+        (statement
+          (comment))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (if_statement
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (literal
+                    (number)))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier)))))))))
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (if_statement
+            (expression
+              (binary_expression
+                (expression
+                  (binary_expression
+                    (expression
+                      (binary_expression
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))
+                        (expression
+                          (unary_expression
+                            (expression
+                              (literal
+                                (number)))))))
+                    (expression
+                      (variable_access
+                        (variable_base
+                          (identifier))))))
+                (expression
+                  (literal
+                    (number)))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier)))))))))
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (binary_expression
+                (expression
+                  (parenthesized_expression
+                    (expression
+                      (binary_expression
+                        (expression
+                          (function_call
+                            (identifier)
+                            (function_argument
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier)))))))
+                        (expression
+                          (function_call
+                            (identifier)
+                            (function_argument
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier)))))))))))
+                (expression
+                  (function_call
+                    (identifier)
+                    (function_argument
+                      (expression
+                        (function_call
+                          (identifier)
+                          (function_argument
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))))))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier))))))))))
+
+===================
+Selection Functions Test
+===================
+
+FUNCTION "SelectionFunctionsTest" : INT
+VAR_INPUT
+    condition : BOOL;
+    value1 : INT;
+    value2 : INT;
+    minVal : INT;
+    maxVal : INT;
+    index : INT;
+END_VAR
+VAR
+    result : INT;
+    selResult : INT;
+    maxResult : INT;
+    minResult : INT;
+    limitResult : INT;
+    muxResult : INT;
+END_VAR
+
+BEGIN
+    // SEL function - selects value based on condition
+    selResult := SEL(condition, value1, value2);
+    
+    // MAX function - selects larger of two values
+    maxResult := MAX(value1, value2);
+    
+    // MIN function - selects smaller of two values
+    minResult := MIN(value1, value2);
+    
+    // LIMIT function - limits a value to a range
+    limitResult := LIMIT(minVal, value1, maxVal);
+    
+    // MUX function - selects a value based on index
+    CASE index OF
+        0: muxResult := MUX(index, 10, 20, 30, 40, 50);
+        1: muxResult := MUX(index, 10, 20, 30, 40, 50);
+        2: muxResult := MUX(index, 10, 20, 30, 40, 50);
+        3: muxResult := MUX(index, 10, 20, 30, 40, 50);
+        4: muxResult := MUX(index, 10, 20, 30, 40, 50);
+        ELSE 
+        muxResult := 0;
+    END_CASE;
+    
+    // Combination of selection functions
+    result := MAX(MIN(value1, maxVal), minVal);
+    
+    SelectionFunctionsTest := result;
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (case_statement
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier))))
+            (case_element
+              (case_value
+                (expression
+                  (literal
+                    (number))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable_access
+                      (variable_base
+                        (identifier)))
+                    (expression
+                      (function_call
+                        (identifier)
+                        (function_argument
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier)))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))))))))
+            (case_element
+              (case_value
+                (expression
+                  (literal
+                    (number))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable_access
+                      (variable_base
+                        (identifier)))
+                    (expression
+                      (function_call
+                        (identifier)
+                        (function_argument
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier)))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))))))))
+            (case_element
+              (case_value
+                (expression
+                  (literal
+                    (number))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable_access
+                      (variable_base
+                        (identifier)))
+                    (expression
+                      (function_call
+                        (identifier)
+                        (function_argument
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier)))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))))))))
+            (case_element
+              (case_value
+                (expression
+                  (literal
+                    (number))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable_access
+                      (variable_base
+                        (identifier)))
+                    (expression
+                      (function_call
+                        (identifier)
+                        (function_argument
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier)))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))))))))
+            (case_element
+              (case_value
+                (expression
+                  (literal
+                    (number))))
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable_access
+                      (variable_base
+                        (identifier)))
+                    (expression
+                      (function_call
+                        (identifier)
+                        (function_argument
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier)))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))
+                        (function_argument
+                          (expression
+                            (literal
+                              (number))))))))))
+            (else_case
+              (statement_list
+                (statement
+                  (assignment_statement
+                    (variable_access
+                      (variable_base
+                        (identifier)))
+                    (expression
+                      (literal
+                        (number)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier)))))
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier))))))))))
+
+===================
+Bit Operations Test
+===================
+
+FUNCTION "BitOperationsTest" : DWORD
+VAR_INPUT
+    inWord1 : WORD;
+    inWord2 : WORD;
+    inDWord : DWORD;
+    count : INT;
+END_VAR
+VAR
+    resultROL : DWORD;
+    resultROR : DWORD;
+    resultSHL : DWORD;
+    resultSHR : DWORD;
+END_VAR
+
+BEGIN
+    // ROL - Rotate Left
+    resultROL := ROL(in := inDWord, n := count);
+    
+    // ROR - Rotate Right
+    resultROR := ROR(inDWord, count);
+    
+    // SHL - Shift Left
+    resultSHL := SHL(in := inDWord, n := count);
+    
+    // SHR - Shift Right
+    resultSHR := SHR(inDWord, count);
+    
+    // Combined bit operations
+    BitOperationsTest := ROL(SHL(inDWord, 8), 4);
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (identifier)
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (identifier)
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (identifier)
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (identifier)
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier)))))
+                      (function_argument
+                        (expression
+                          (literal
+                            (number)))))))
+                (function_argument
+                  (expression
+                    (literal
+                      (number))))))))))))
+
+===================
+String Functions Test
+===================
+
+FUNCTION "StringFunctionsTest" : STRING
+VAR_INPUT
+    inString1 : STRING;
+    inString2 : STRING;
+    inInt : INT;
+    inReal : REAL;
+END_VAR
+VAR
+    resultConcat : STRING;
+    resultValStrg : STRING;
+    resultStrgVal : INT;
+    resultSConv : STRING;
+END_VAR
+
+BEGIN
+    // CONCAT - Concatenate strings
+    resultConcat := CONCAT(inString1, inString2);
+    
+    // VAL_STRG - Convert number to string
+    resultValStrg := VAL_STRG(inInt, 10);  // Convert to decimal string
+    
+    // STRG_VAL - Convert string to number
+    resultStrgVal := STRG_VAL(inString1);
+    
+    // S_CONV - Convert between string formats
+    resultSConv := S_CONV(inString1);
+    
+    // Combined string operations
+    StringFunctionsTest := CONCAT(inString1, VAL_STRG(inReal, 10));
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_input_section
+          (variable_declaration
+            (identifier)
+            (string_declaration))
+          (variable_declaration
+            (identifier)
+            (string_declaration))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (data_type))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (string_declaration))
+          (variable_declaration
+            (identifier)
+            (string_declaration))
+          (variable_declaration
+            (identifier)
+            (data_type))
+          (variable_declaration
+            (identifier)
+            (string_declaration))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (literal
+                      (number))))))))
+        (statement
+          (comment))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))))))
+        (statement
+          (comment))
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (function_call
+                (identifier)
+                (function_argument
+                  (expression
+                    (variable_access
+                      (variable_base
+                        (identifier)))))
+                (function_argument
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_argument
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier)))))
+                      (function_argument
+                        (expression
+                          (literal
+                            (number)))))))))))))))

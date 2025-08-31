@@ -1,0 +1,164 @@
+=====================
+Time Literals Test
+=====================
+
+FUNCTION "TimeLiteralsTest" : VOID
+VAR
+    simpleTime1 : TIME := T#5S;
+    simpleTime2 : TIME := T#10MS;
+    simpleTime3 : TIME := T#2H;
+    simpleTime4 : TIME := t#30m;
+    
+    complexTime1 : TIME := T#1h35m;
+    complexTime2 : TIME := T#1d4h15m30s;
+    complexTime3 : TIME := T#1d4h15m30s250ms;
+    
+    timePrefix1 : TIME := TIME#1h;
+    timePrefix2 : TIME := TIME#30m25s;
+    
+    s5time1 : S5TIME := S5T#2H_30M;
+    s5time2 : S5TIME := S5T#1H_10S;
+    
+    negativeDuration : TIME := TIME#-1h30m;
+END_VAR
+
+BEGIN
+    // Function using time literals as parameters
+    IF simpleTime1 < T#10s THEN
+        ; // Do something
+    END_IF;
+    
+    // Testing with comparison operations
+    IF complexTime1 > T#1h30m AND complexTime1 < T#2h THEN
+        ; // Do something else
+    END_IF;
+END_FUNCTION
+
+---
+
+(source_file
+  (program_organization_unit
+    (function
+      (string
+        (identifier))
+      (data_type)
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))
+          (variable_declaration
+            (identifier)
+            (data_type)
+            (expression
+              (literal
+                (time_literal))))))
+      (statement_list
+        (statement
+          (comment))
+        (statement
+          (if_statement
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (literal
+                    (time_literal)))))
+            (statement_list
+              (statement)
+              (statement
+                (comment)))))
+        (statement
+          (comment))
+        (statement
+          (if_statement
+            (expression
+              (binary_expression
+                (expression
+                  (binary_expression
+                    (expression
+                      (binary_expression
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))
+                        (expression
+                          (literal
+                            (time_literal)))))
+                    (expression
+                      (variable_access
+                        (variable_base
+                          (identifier))))))
+                (expression
+                  (literal
+                    (time_literal)))))
+            (statement_list
+              (statement)
+              (statement
+                (comment)))))))))
