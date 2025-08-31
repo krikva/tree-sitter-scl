@@ -25,7 +25,7 @@ module.exports = grammar({
     [$.function_block, $.statement_list],
     [$.function, $.statement_list, $.statement],
     [$.function, $.statement_list],
-    [$.string_declaration, $.data_type]
+    [$.string_declaration, $.data_type],
   ],
 
   rules: {
@@ -610,8 +610,16 @@ module.exports = grammar({
     // Ensure time literals are properly tokenized and only appear inside literals
     // Comprehensive pattern for time literals that matches both simple and complex formats
     time_literal: $ => prec(0, token(choice(
+      // Simple format: T#100MS, T#5S, T#10H, etc.
       /[tT]#[0-9]+([mM][sS]|[dDhHmMsS])/,
-      /[tT|TIME]#(((\d+)?d)?((\d+)?h)?((\d+)?m)?((\d+)?s)?((\d+)?ms)?)/
+      // Complex format: T#1d4h15m30s250ms, TIME#1h, etc.
+      /[tT|TIME]#(((\d+)?d)?((\d+)?h)?((\d+)?m)?((\d+)?s)?((\d+)?ms)?)/,
+      // S5TIME format: S5T#2H_30M, S5T#1H_10S, etc.
+      /S5T#\d+[HhMmSs]_\d+[HhMmSs]/,
+      // Additional S5TIME formats with timebase
+      /S5T#\d+[HhMmSs]_(?:10MS|100MS|1S|10S)/,
+      // Additional formats for IEC timers
+      /TIME#(-)?(\d+d)?(\d+h)?(\d+m)?(\d+s)?(\d+ms)?/
     ))),
 
     date_literal: $ => token(/[dD]#[0-9]{4}-[0-9]{2}-[0-9]{2}/),

@@ -2550,6 +2550,18 @@
             {
               "type": "PATTERN",
               "value": "[tT|TIME]#(((\\d+)?d)?((\\d+)?h)?((\\d+)?m)?((\\d+)?s)?((\\d+)?ms)?)"
+            },
+            {
+              "type": "PATTERN",
+              "value": "S5T#\\d+[HhMmSs]_\\d+[HhMmSs]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "S5T#\\d+[HhMmSs]_(?:10MS|100MS|1S|10S)"
+            },
+            {
+              "type": "PATTERN",
+              "value": "TIME#(-)?(\\d+d)?(\\d+h)?(\\d+m)?(\\d+s)?(\\d+ms)?"
             }
           ]
         }
