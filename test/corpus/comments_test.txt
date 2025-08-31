@@ -1,0 +1,26 @@
+===================
+Comments test
+===================
+
+// This is a line comment
+value := 10; // This is an end-of-line comment
+
+(* this is a block comment.
+with several lines *)
+
+---
+
+(source_file
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (literal
+          (number)))))
+  (statement
+    (comment))
+  (block_comment))

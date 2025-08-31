@@ -1,0 +1,192 @@
+===================
+Bit Operations
+===================
+
+VAR
+  Flag : BYTE := 16#A5;  // 10100101 in binary
+  Mask : BYTE := 16#F0;  // 11110000 in binary
+  Result : BYTE;
+END_VAR
+
+// Bitwise AND
+Result := Flag AND Mask;  // Should be 16#A0 (10100000)
+
+// Bitwise OR
+Result := Flag OR 2#00001111;  // Should be 16#AF (10101111)
+
+// Bitwise XOR
+Result := Flag XOR 16#FF;  // Bitwise complement = 16#5A (01011010)
+
+// Shift operations
+Result := SHL(IN := Flag, N := 2);  // Shift left 2 bits = 16#94 (10010100)
+Result := SHR(IN := Flag, N := 2);  // Shift right 2 bits = 16#29 (00101001)
+
+// Rotate operations
+Result := ROL(IN := Flag, N := 3);  // Rotate left 3 bits = 16#2D (00101101)
+Result := ROR(IN := Flag, N := 3);  // Rotate right 3 bits = 16#4A (01001010)
+
+---
+
+(source_file
+  (variable_declaration_section
+    (var_section
+      (variable_declaration
+        (identifier)
+        (data_type)
+        (expression
+          (literal
+            (number)))
+        (comment))
+      (variable_declaration
+        (identifier)
+        (data_type)
+        (expression
+          (literal
+            (number)))
+        (comment))
+      (variable_declaration
+        (identifier)
+        (data_type))))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (binary_expression
+          (expression
+            (variable_access
+              (variable_base
+                (identifier))))
+          (expression
+            (variable_access
+              (variable_base
+                (identifier))))))))
+  (statement
+    (comment))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (binary_expression
+          (expression
+            (variable_access
+              (variable_base
+                (identifier))))
+          (expression
+            (literal
+              (number)))))))
+  (statement
+    (comment))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (binary_expression
+          (expression
+            (variable_access
+              (variable_base
+                (identifier))))
+          (expression
+            (literal
+              (number)))))))
+  (statement
+    (comment))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (function_call
+          (identifier)
+          (function_argument
+            (identifier)
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier)))))
+          (function_argument
+            (identifier)
+            (expression
+              (literal
+                (number))))))))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (function_call
+          (identifier)
+          (function_argument
+            (identifier)
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier)))))
+          (function_argument
+            (identifier)
+            (expression
+              (literal
+                (number))))))))
+  (statement
+    (comment))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (function_call
+          (identifier)
+          (function_argument
+            (identifier)
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier)))))
+          (function_argument
+            (identifier)
+            (expression
+              (literal
+                (number))))))))
+  (statement
+    (comment))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (function_call
+          (identifier)
+          (function_argument
+            (identifier)
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier)))))
+          (function_argument
+            (identifier)
+            (expression
+              (literal
+                (number))))))))
+  (statement
+    (comment)))

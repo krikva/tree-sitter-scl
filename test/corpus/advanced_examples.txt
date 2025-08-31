@@ -1,0 +1,999 @@
+===================
+Complex Function Block
+===================
+
+FUNCTION_BLOCK "FB_AdvancedController"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+(* This function block implements a simple PID controller with anti-windup and output limiting. *)
+VAR_INPUT
+    Setpoint : REAL;                  // Target value
+    ActualValue : REAL;               // Measured process value
+    Kp : REAL := 1.0;                 // Proportional gain
+    Ki : REAL := 0.1;                 // Integral gain
+    Kd : REAL := 0.0;                 // Derivative gain
+    MinOutput : REAL := -100.0;       // Lower limit for output
+    MaxOutput : REAL := 100.0;        // Upper limit for output
+    Reset : BOOL;                     // Reset integrator
+    Enable : BOOL := TRUE;            // Enable controller
+    SampleTime : TIME := T#100MS;     // Sampling time
+END_VAR
+
+VAR_OUTPUT
+    Output : REAL;                    // Controller output
+    ErrorValue : REAL;                // Current error (Setpoint - ActualValue)
+    Status : INT;                     // Status information
+END_VAR
+
+VAR
+    integral : REAL := 0.0;           // Integral term
+    prevError : REAL := 0.0;          // Previous error for derivative calculation
+    prevTime : TIME;                  // Previous execution time
+    currTime : TIME;                  // Current execution time
+    deltaTime : REAL;                 // Time difference in seconds
+END_VAR
+
+BEGIN
+
+// Get current time
+currTime := TIME_TCK();
+
+// Calculate time difference
+IF prevTime = T#0MS THEN
+    deltaTime := DINT_TO_REAL(TIME_TO_DINT(SampleTime)) / 1000.0;
+ELSE
+    deltaTime := DINT_TO_REAL(TIME_TO_DINT(currTime - prevTime)) / 1000.0;
+    
+    // Prevent division by zero or negative time
+    IF deltaTime <= 0.0 THEN
+        deltaTime := DINT_TO_REAL(TIME_TO_DINT(SampleTime)) / 1000.0;
+    END_IF;
+END_IF;
+
+// Store current time for next cycle
+prevTime := currTime;
+
+REGION Control logic
+    // Controller logic
+    IF Enable THEN
+        // Calculate error
+        ErrorValue := Setpoint - ActualValue;
+
+        // Proportional term
+        Output := Kp * ErrorValue;
+
+        // Integral term (with anti-windup)
+        IF Reset THEN
+            integral := 0.0;
+        ELSE
+            integral := integral + ErrorValue * Ki * deltaTime;
+
+            // Check for integrator windup
+            IF (Output > MaxOutput AND integral > 0.0) OR 
+               (Output < MinOutput AND integral < 0.0) THEN
+                // Don't accumulate integral term
+            ELSE
+                Output := Output + integral;
+            END_IF;
+        END_IF;
+        REGION Deravative term
+            // Derivative term
+            IF deltaTime > 0.0 THEN
+                Output := Output + Kd * (ErrorValue - prevError) / deltaTime;
+            END_IF;
+        END_REGION
+        // Update previous error for next cycle
+        prevError := ErrorValue;
+
+        // Limit output
+        IF Output > MaxOutput THEN
+            Output := MaxOutput;
+            Status := 1;  // Clamped at max
+        ELSIF Output < MinOutput THEN
+            Output := MinOutput;
+            Status := 2;  // Clamped at min
+        ELSE
+            Status := 0;  // Normal operation
+        END_IF;
+    ELSE
+        // Controller disabled
+        Output := 0.0;
+        integral := 0.0;
+        prevError := 0.0;
+        Status := -1;  // Disabled
+    END_IF;
+
+END_REGION
+
+END_FUNCTION_BLOCK
+
+-----------------------------------------------------------------
+
+    (source_file
+      (program_organization_unit
+        (function_block
+          (string
+            (identifier))
+          (configuration_block
+            (identifier)
+            (string_literal))
+          (version_declaration
+            (number))
+          (block_comment)
+          (variable_declaration_section
+            (var_input_section
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (unary_expression
+                    (expression
+                      (literal
+                        (number)))))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (boolean_literal)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (time_literal)))
+                (comment))))
+          (variable_declaration_section
+            (var_output_section
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))))
+          (variable_declaration_section
+            (var_section
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number)))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))))
+          (statement_list
+            (statement
+              (comment))
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier)))
+                (expression
+                  (function_call
+                    (identifier)))))
+            (statement
+              (comment))
+            (statement
+              (if_statement
+                (expression
+                  (binary_expression
+                    (expression
+                      (variable_access
+                        (variable_base
+                          (identifier))))
+                    (expression
+                      (literal
+                        (time_literal)))))
+                (statement_list
+                  (statement
+                    (assignment_statement
+                      (variable_access
+                        (variable_base
+                          (identifier)))
+                      (expression
+                        (binary_expression
+                          (expression
+                            (function_call
+                              (identifier)
+                              (function_argument
+                                (expression
+                                  (function_call
+                                    (identifier)
+                                    (function_argument
+                                      (expression
+                                        (variable_access
+                                          (variable_base
+                                            (identifier))))))))))
+                          (expression
+                            (literal
+                              (number))))))))
+                (else_clause
+                  (statement_list
+                    (statement
+                      (assignment_statement
+                        (variable_access
+                          (variable_base
+                            (identifier)))
+                        (expression
+                          (binary_expression
+                            (expression
+                              (function_call
+                                (identifier)
+                                (function_argument
+                                  (expression
+                                    (function_call
+                                      (identifier)
+                                      (function_argument
+                                        (expression
+                                          (binary_expression
+                                            (expression
+                                              (variable_access
+                                                (variable_base
+                                                  (identifier))))
+                                            (expression
+                                              (variable_access
+                                                (variable_base
+                                                  (identifier))))))))))))
+                            (expression
+                              (literal
+                                (number)))))))
+                    (statement
+                      (comment))
+                    (statement
+                      (if_statement
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (literal
+                                (number)))))
+                        (statement_list
+                          (statement
+                            (assignment_statement
+                              (variable_access
+                                (variable_base
+                                  (identifier)))
+                              (expression
+                                (binary_expression
+                                  (expression
+                                    (function_call
+                                      (identifier)
+                                      (function_argument
+                                        (expression
+                                          (function_call
+                                            (identifier)
+                                            (function_argument
+                                              (expression
+                                                (variable_access
+                                                  (variable_base
+                                                    (identifier))))))))))
+                                  (expression
+                                    (literal
+                                      (number))))))))))))))
+            (statement
+              (comment))
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier)))
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))))
+            (statement
+              (region
+                (statement_list
+                  (statement
+                    (comment))
+                  (statement
+                    (if_statement
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))))
+                      (statement_list
+                        (statement
+                          (comment))
+                        (statement
+                          (assignment_statement
+                            (variable_access
+                              (variable_base
+                                (identifier)))
+                            (expression
+                              (binary_expression
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))))))
+                        (statement
+                          (comment))
+                        (statement
+                          (assignment_statement
+                            (variable_access
+                              (variable_base
+                                (identifier)))
+                            (expression
+                              (binary_expression
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))))))
+                        (statement
+                          (comment))
+                        (statement
+                          (if_statement
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (statement_list
+                              (statement
+                                (assignment_statement
+                                  (variable_access
+                                    (variable_base
+                                      (identifier)))
+                                  (expression
+                                    (literal
+                                      (number))))))
+                            (else_clause
+                              (statement_list
+                                (statement
+                                  (assignment_statement
+                                    (variable_access
+                                      (variable_base
+                                        (identifier)))
+                                    (expression
+                                      (binary_expression
+                                        (expression
+                                          (variable_access
+                                            (variable_base
+                                              (identifier))))
+                                        (expression
+                                          (binary_expression
+                                            (expression
+                                              (binary_expression
+                                                (expression
+                                                  (variable_access
+                                                    (variable_base
+                                                      (identifier))))
+                                                (expression
+                                                  (variable_access
+                                                    (variable_base
+                                                      (identifier))))))
+                                            (expression
+                                              (variable_access
+                                                (variable_base
+                                                  (identifier))))))))))
+                                (statement
+                                  (comment))
+                                (statement
+                                  (if_statement
+                                    (expression
+                                      (binary_expression
+                                        (expression
+                                          (parenthesized_expression
+                                            (expression
+                                              (binary_expression
+                                                (expression
+                                                  (binary_expression
+                                                    (expression
+                                                      (binary_expression
+                                                        (expression
+                                                          (variable_access
+                                                            (variable_base
+                                                              (identifier))))
+                                                        (expression
+                                                          (variable_access
+                                                            (variable_base
+                                                              (identifier))))))
+                                                    (expression
+                                                      (variable_access
+                                                        (variable_base
+                                                          (identifier))))))
+                                                (expression
+                                                  (literal
+                                                    (number)))))))
+                                        (expression
+                                          (parenthesized_expression
+                                            (expression
+                                              (binary_expression
+                                                (expression
+                                                  (binary_expression
+                                                    (expression
+                                                      (binary_expression
+                                                        (expression
+                                                          (variable_access
+                                                            (variable_base
+                                                              (identifier))))
+                                                        (expression
+                                                          (variable_access
+                                                            (variable_base
+                                                              (identifier))))))
+                                                    (expression
+                                                      (variable_access
+                                                        (variable_base
+                                                          (identifier))))))
+                                                (expression
+                                                  (literal
+                                                    (number)))))))))
+                                    (statement_list
+                                      (statement
+                                        (comment)))
+                                    (else_clause
+                                      (statement_list
+                                        (statement
+                                          (assignment_statement
+                                            (variable_access
+                                              (variable_base
+                                                (identifier)))
+                                            (expression
+                                              (binary_expression
+                                                (expression
+                                                  (variable_access
+                                                    (variable_base
+                                                      (identifier))))
+                                                (expression
+                                                  (variable_access
+                                                    (variable_base
+                                                      (identifier))))))))))))))))
+                        (statement
+                          (region
+                            (statement_list
+                              (statement
+                                (comment))
+                              (statement
+                                (if_statement
+                                  (expression
+                                    (binary_expression
+                                      (expression
+                                        (variable_access
+                                          (variable_base
+                                            (identifier))))
+                                      (expression
+                                        (literal
+                                          (number)))))
+                                  (statement_list
+                                    (statement
+                                      (assignment_statement
+                                        (variable_access
+                                          (variable_base
+                                            (identifier)))
+                                        (expression
+                                          (binary_expression
+                                            (expression
+                                              (variable_access
+                                                (variable_base
+                                                  (identifier))))
+                                            (expression
+                                              (binary_expression
+                                                (expression
+                                                  (binary_expression
+                                                    (expression
+                                                      (variable_access
+                                                        (variable_base
+                                                          (identifier))))
+                                                    (expression
+                                                      (parenthesized_expression
+                                                        (expression
+                                                          (binary_expression
+                                                            (expression
+                                                              (variable_access
+                                                                (variable_base
+                                                                  (identifier))))
+                                                            (expression
+                                                              (variable_access
+                                                                (variable_base
+                                                                  (identifier))))))))))
+                                                (expression
+                                                  (variable_access
+                                                    (variable_base
+                                                      (identifier))))))))))))))))
+                        (statement
+                          (comment))
+                        (statement
+                          (assignment_statement
+                            (variable_access
+                              (variable_base
+                                (identifier)))
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))))
+                        (statement
+                          (comment))
+                        (statement
+                          (if_statement
+                            (expression
+                              (binary_expression
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))))
+                            (statement_list
+                              (statement
+                                (assignment_statement
+                                  (variable_access
+                                    (variable_base
+                                      (identifier)))
+                                  (expression
+                                    (variable_access
+                                      (variable_base
+                                        (identifier))))))
+                              (statement
+                                (assignment_statement
+                                  (variable_access
+                                    (variable_base
+                                      (identifier)))
+                                  (expression
+                                    (literal
+                                      (number)))))
+                              (statement
+                                (comment)))
+                            (elsif_clause
+                              (expression
+                                (binary_expression
+                                  (expression
+                                    (variable_access
+                                      (variable_base
+                                        (identifier))))
+                                  (expression
+                                    (variable_access
+                                      (variable_base
+                                        (identifier))))))
+                              (statement_list
+                                (statement
+                                  (assignment_statement
+                                    (variable_access
+                                      (variable_base
+                                        (identifier)))
+                                    (expression
+                                      (variable_access
+                                        (variable_base
+                                          (identifier))))))
+                                (statement
+                                  (assignment_statement
+                                    (variable_access
+                                      (variable_base
+                                        (identifier)))
+                                    (expression
+                                      (literal
+                                        (number)))))
+                                (statement
+                                  (comment))))
+                            (else_clause
+                              (statement_list
+                                (statement
+                                  (assignment_statement
+                                    (variable_access
+                                      (variable_base
+                                        (identifier)))
+                                    (expression
+                                      (literal
+                                        (number)))))
+                                (statement
+                                  (comment)))))))
+                      (else_clause
+                        (statement_list
+                          (statement
+                            (comment))
+                          (statement
+                            (assignment_statement
+                              (variable_access
+                                (variable_base
+                                  (identifier)))
+                              (expression
+                                (literal
+                                  (number)))))
+                          (statement
+                            (assignment_statement
+                              (variable_access
+                                (variable_base
+                                  (identifier)))
+                              (expression
+                                (literal
+                                  (number)))))
+                          (statement
+                            (assignment_statement
+                              (variable_access
+                                (variable_base
+                                  (identifier)))
+                              (expression
+                                (literal
+                                  (number)))))
+                          (statement
+                            (assignment_statement
+                              (variable_access
+                                (variable_base
+                                  (identifier)))
+                              (expression
+                                (unary_expression
+                                  (expression
+                                    (literal
+                                      (number)))))))
+                          (statement
+                            (comment)))))))))))))
+
+===================
+Complex Data Types
+===================
+
+TYPE Coordinates : 
+  STRUCT
+    X : REAL;
+    Y : REAL;
+    Z : REAL;
+  END_STRUCT;
+END_TYPE
+
+TYPE Robot :
+  STRUCT
+    Name : STRING[30];
+    Position : Coordinates;
+    Joints : ARRAY[1..6] OF REAL;
+    Status : INT;
+    IsActive : BOOL;
+  END_STRUCT;
+END_TYPE
+
+VAR
+  MyRobot : Robot;
+  Robots : ARRAY[1..10] OF Robot;
+END_VAR
+
+// Initialize robot
+MyRobot.Name := 'Robot1';
+MyRobot.Position.X := 100.5;
+MyRobot.Position.Y := 200.3;
+MyRobot.Position.Z := 50.0;
+MyRobot.IsActive := TRUE;
+
+// Access array element
+Robots[1].Name := 'Robot in array';
+Robots[1].Joints[2] := 45.0;
+
+// Complex condition
+IF MyRobot.IsActive AND 
+   (MyRobot.Position.X > 100.0 OR
+    MyRobot.Position.Y > 200.0) THEN
+   
+   // Complex calculation
+   MyRobot.Position.Z := SQRT(MyRobot.Position.X * MyRobot.Position.X +
+                             MyRobot.Position.Y * MyRobot.Position.Y);
+END_IF;
+
+---------------------------------------------------------------------------------
+
+    (source_file
+      (variable_declaration_section
+        (type_section
+          (type_declaration
+            (identifier)
+            (struct_declaration
+              (variable_declaration
+                (identifier)
+                (data_type))
+              (variable_declaration
+                (identifier)
+                (data_type))
+              (variable_declaration
+                (identifier)
+                (data_type))))))
+      (variable_declaration_section
+        (type_section
+          (type_declaration
+            (identifier)
+            (struct_declaration
+              (variable_declaration
+                (identifier)
+                (string_declaration
+                  (number)))
+              (variable_declaration
+                (identifier)
+                (data_type
+                  (identifier)))
+              (variable_declaration
+                (identifier)
+                (array_declaration
+                  (range
+                    (expression
+                      (literal
+                        (number)))
+                    (expression
+                      (literal
+                        (number))))
+                  (data_type)))
+              (variable_declaration
+                (identifier)
+                (data_type))
+              (variable_declaration
+                (identifier)
+                (data_type))))))
+      (variable_declaration_section
+        (var_section
+          (variable_declaration
+            (identifier)
+            (data_type
+              (identifier)))
+          (variable_declaration
+            (identifier)
+            (array_declaration
+              (range
+                (expression
+                  (literal
+                    (number)))
+                (expression
+                  (literal
+                    (number))))
+              (data_type
+                (identifier))))))
+      (statement
+        (comment))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (identifier)))
+          (expression
+            (literal
+              (string_literal)))))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (identifier))
+            (variable_selector
+              (identifier)))
+          (expression
+            (literal
+              (number)))))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (identifier))
+            (variable_selector
+              (identifier)))
+          (expression
+            (literal
+              (number)))))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (identifier))
+            (variable_selector
+              (identifier)))
+          (expression
+            (literal
+              (number)))))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (identifier)))
+          (expression
+            (literal
+              (boolean_literal)))))
+      (statement
+        (comment))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (expression
+                (literal
+                  (number))))
+            (variable_selector
+              (identifier)))
+          (expression
+            (literal
+              (string_literal)))))
+      (statement
+        (assignment_statement
+          (variable_access
+            (variable_base
+              (identifier))
+            (variable_selector
+              (expression
+                (literal
+                  (number))))
+            (variable_selector
+              (identifier))
+            (variable_selector
+              (expression
+                (literal
+                  (number)))))
+          (expression
+            (literal
+              (number)))))
+      (statement
+        (comment))
+      (statement
+        (if_statement
+          (expression
+            (binary_expression
+              (expression
+                (variable_access
+                  (variable_base
+                    (identifier))
+                  (variable_selector
+                    (identifier))))
+              (expression
+                (parenthesized_expression
+                  (expression
+                    (binary_expression
+                      (expression
+                        (binary_expression
+                          (expression
+                            (binary_expression
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))))
+                              (expression
+                                (literal
+                                  (number)))))
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier))
+                              (variable_selector
+                                (identifier))
+                              (variable_selector
+                                (identifier))))))
+                      (expression
+                        (literal
+                          (number)))))))))
+          (statement_list
+            (statement
+              (comment))
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier))
+                  (variable_selector
+                    (identifier))
+                  (variable_selector
+                    (identifier)))
+                (expression
+                  (function_call
+                    (identifier)
+                    (function_argument
+                      (expression
+                        (binary_expression
+                          (expression
+                            (binary_expression
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))))
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))))))
+                          (expression
+                            (binary_expression
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))))
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier))
+                                  (variable_selector
+                                    (identifier)))))))))))))))))

@@ -1,11 +1,10 @@
 ===================
-String Literals Test
+Complex String Test
 ===================
 
-message1 := 'Single quotes';
-message2 := "Double quotes";
-message3 := 'Single quotes with escape: \' ';
-message4 := "Double quotes with escape: \" ";
+message1 := 'Single quotes with escape: \' ';
+message2 := "Double quotes with escape: \" ";
+combined := 'First part' + "Second part";
 
 ---
 
@@ -32,14 +31,10 @@ message4 := "Double quotes with escape: \" ";
         (variable_base
           (identifier)))
       (expression
-        (literal
-          (string_literal)))))
-  (statement
-    (assignment_statement
-      (variable_access
-        (variable_base
-          (identifier)))
-      (expression
-        (literal
-          (string_literal))))))
-
+        (binary_expression
+          (expression
+            (literal
+              (string_literal)))
+          (expression
+            (literal
+              (string_literal))))))))

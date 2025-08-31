@@ -1,0 +1,83 @@
+===================
+Comprehensive Test
+===================
+
+message1 := 'Single quote test';
+message2 := "Double quotes";
+
+IF a = 5 THEN
+  message := 'yes';
+ELSIF a = 10 THEN
+  message := "no";
+ELSE
+  message := 'maybe';
+END_IF;
+
+---
+
+(source_file
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (literal
+          (string_literal)))))
+  (statement
+    (assignment_statement
+      (variable_access
+        (variable_base
+          (identifier)))
+      (expression
+        (literal
+          (string_literal)))))
+  (statement
+    (if_statement
+      (expression
+        (binary_expression
+          (expression
+            (variable_access
+              (variable_base
+                (identifier))))
+          (expression
+            (literal
+              (number)))))
+      (statement_list
+        (statement
+          (assignment_statement
+            (variable_access
+              (variable_base
+                (identifier)))
+            (expression
+              (literal
+                (string_literal))))))
+      (elsif_clause
+        (expression
+          (binary_expression
+            (expression
+              (variable_access
+                (variable_base
+                  (identifier))))
+            (expression
+              (literal
+                (number)))))
+        (statement_list
+          (statement
+            (assignment_statement
+              (variable_access
+                (variable_base
+                  (identifier)))
+              (expression
+                (literal
+                  (string_literal)))))))
+      (else_clause
+        (statement_list
+          (statement
+            (assignment_statement
+              (variable_access
+                (variable_base
+                  (identifier)))
+              (expression
+                (literal
+                  (string_literal))))))))))

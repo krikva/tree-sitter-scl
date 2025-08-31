@@ -50,7 +50,228 @@ END_FOR;
 
 END_FUNCTION_BLOCK
 
----
+-------------------------------------------------------------------
+
+(source_file
+      (program_organization_unit
+        (function_block
+          (identifier)
+          (variable_declaration_section
+            (var_constant_section
+              (comment)
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (literal
+                    (number))))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (expression
+                  (binary_expression
+                    (expression
+                      (parenthesized_expression
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (literal
+                                (number)))))))
+                    (expression
+                      (literal
+                        (number))))))))
+          (variable_declaration_section
+            (var_input_section
+              (comment)
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type))
+              (variable_declaration
+                (identifier)
+                (data_type))))
+          (variable_declaration_section
+            (var_output_section
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type)
+                (comment))))
+          (variable_declaration_section
+            (var_section
+              (variable_declaration
+                (identifier)
+                (array_declaration
+                  (range
+                    (expression
+                      (literal
+                        (number)))
+                    (expression
+                      (binary_expression
+                        (expression
+                          (variable_access
+                            (variable_base
+                              (identifier))))
+                        (expression
+                          (literal
+                            (number))))))
+                  (data_type))
+                (comment))
+              (variable_declaration
+                (identifier)
+                (data_type))))
+          (statement_list
+            (statement
+              (comment))
+            (statement
+              (if_statement
+                (expression
+                  (binary_expression
+                    (expression
+                      (variable_access
+                        (variable_base
+                          (identifier))))
+                    (expression
+                      (parenthesized_expression
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))))))))
+                (statement_list
+                  (statement
+                    (assignment_statement
+                      (variable_access
+                        (variable_base
+                          (identifier))
+                        (variable_selector
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier))))))
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier)))))))))
+            (statement
+              (comment))
+            (statement
+              (if_statement
+                (expression
+                  (binary_expression
+                    (expression
+                      (variable_access
+                        (variable_base
+                          (identifier))))
+                    (expression
+                      (parenthesized_expression
+                        (expression
+                          (binary_expression
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier))))))))))
+                (statement_list
+                  (statement
+                    (assignment_statement
+                      (variable_access
+                        (variable_base
+                          (identifier))
+                        (variable_selector
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier))))))
+                      (expression
+                        (unary_expression
+                          (expression
+                            (variable_access
+                              (variable_base
+                                (identifier))
+                              (variable_selector
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))))))))))))
+            (statement
+              (comment))
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier)))
+                (expression
+                  (literal
+                    (number)))))
+            (statement
+              (for_statement
+                (identifier)
+                (expression
+                  (literal
+                    (number)))
+                (expression
+                  (binary_expression
+                    (expression
+                      (variable_access
+                        (variable_base
+                          (identifier))))
+                    (expression
+                      (literal
+                        (number)))))
+                (statement_list
+                  (statement
+                    (if_statement
+                      (expression
+                        (variable_access
+                          (variable_base
+                            (identifier))
+                          (variable_selector
+                            (expression
+                              (variable_access
+                                (variable_base
+                                  (identifier)))))))
+                      (statement_list
+                        (statement
+                          (assignment_statement
+                            (variable_access
+                              (variable_base
+                                (identifier)))
+                            (expression
+                              (binary_expression
+                                (expression
+                                  (variable_access
+                                    (variable_base
+                                      (identifier))))
+                                (expression
+                                  (literal
+                                    (number)))))))))))))))))
 
 ===================
 Function test
@@ -74,7 +295,70 @@ FC_Calculate := result;
 
 END_FUNCTION
 
----
+--------------------------------------------------------------------------------
+    (source_file
+      (program_organization_unit
+        (function
+          (identifier)
+          (data_type)
+          (variable_declaration_section
+            (var_input_section
+              (variable_declaration
+                (identifier)
+                (data_type))
+              (variable_declaration
+                (identifier)
+                (data_type))))
+          (variable_declaration_section
+            (var_temp_section
+              (variable_declaration
+                (identifier)
+                (data_type))))
+          (statement_list
+            (statement
+              (comment))
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier)))
+                (expression
+                  (function_call
+                    (identifier)
+                    (function_argument
+                      (expression
+                        (binary_expression
+                          (expression
+                            (binary_expression
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))))
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))))))
+                          (expression
+                            (binary_expression
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier))))
+                              (expression
+                                (variable_access
+                                  (variable_base
+                                    (identifier)))))))))))))
+            (statement
+              (comment))
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier)))
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))))))))
 
 ===================
 If statement test
@@ -88,7 +372,59 @@ ELSE
 	result := 'Low';
 END_IF;
 
----
+---------------------------------------------------------------------------
+
+(source_file
+      (statement
+        (if_statement
+          (expression
+            (binary_expression
+              (expression
+                (variable_access
+                  (variable_base
+                    (identifier))))
+              (expression
+                (literal
+                  (number)))))
+          (statement_list
+            (statement
+              (assignment_statement
+                (variable_access
+                  (variable_base
+                    (identifier)))
+                (expression
+                  (literal
+                    (string_literal))))))
+          (elsif_clause
+            (expression
+              (binary_expression
+                (expression
+                  (variable_access
+                    (variable_base
+                      (identifier))))
+                (expression
+                  (literal
+                    (number)))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (string_literal)))))))
+          (else_clause
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (string_literal))))))))))
+
 
 ===================
 Case statement test
@@ -105,15 +441,68 @@ CASE status OF
 		message := 'Error';
 END_CASE;
 
----
+---------------------------------------------------------------
 
-===================
-Comments test
-===================
+    (source_file
+      (statement
+        (case_statement
+          (expression
+            (variable_access
+              (variable_base
+                (identifier))))
+          (case_element
+            (case_value
+              (expression
+                (literal
+                  (number))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (string_literal)))))))
+          (case_element
+            (case_value
+              (expression
+                (literal
+                  (number))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (string_literal)))))))
+          (case_element
+            (case_range
+              (expression
+                (literal
+                  (number)))
+              (expression
+                (literal
+                  (number))))
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (string_literal)))))))
+          (else_case
+            (statement_list
+              (statement
+                (assignment_statement
+                  (variable_access
+                    (variable_base
+                      (identifier)))
+                  (expression
+                    (literal
+                      (string_literal))))))))))
 
-// This is a line comment
-value := 10; // This is an end-of-line comment
-
-(* This is 
-   a block comment 
-   spanning multiple lines *)

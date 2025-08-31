@@ -13,12 +13,21 @@ module.exports = grammar({
   extras: $ => [
     /\s|\\\r?\n/,
     $.comment,
+    $.block_comment,
   ],
 
   // Case insensitive
   word: $ => $.identifier,
 
-
+  conflicts: $ => [
+    [$.statement_list, $.statement],
+    [$.statement_list, $.statement, $.region],
+    [$.function_block, $.statement_list, $.statement],
+    [$.function_block, $.statement_list],
+    [$.function, $.statement_list, $.statement],
+    [$.function, $.statement_list],
+    [$.string_declaration, $.data_type]
+  ],
 
   rules: {
     source_file: $ => repeat(choice(
@@ -35,55 +44,79 @@ module.exports = grammar({
     ),
 
     // Function block definition
-    function_block: $ => seq(
+    function_block: $ => prec.right(seq(
       'FUNCTION_BLOCK',
-      optional($.string),
-      $.identifier,
-      repeat($.variable_declaration_section),
-      optional(seq(
-        $.statement_list,
+      choice($.string, $.identifier),
+      repeat(choice(
+        $.configuration_block,
+        $.version_declaration,
+        $.comment,
+        $.block_comment,
+        $.variable_declaration_section
       )),
-      'END_FUNCTION_BLOCK'
-    ),
+      optional('BEGIN'),
+      optional($.statement_list),
+      'END_FUNCTION_BLOCK',
+      optional(';')
+    )),
 
     // Function definition
-    function: $ => seq(
+    function: $ => prec.right(seq(
       'FUNCTION',
-      optional($.string),
-      $.identifier,
-      optional(seq(
-        ':',
-        $.data_type
+      choice($.string, $.identifier),
+      optional(seq(':', $.data_type)),
+      repeat(choice(
+        $.configuration_block, 
+        $.version_declaration,
+        $.comment, 
+        $.block_comment,
+        $.variable_declaration_section
       )),
-      repeat($.variable_declaration_section),
-      optional(seq(
-        $.statement_list,
-      )),
-      'END_FUNCTION'
-    ),
+      optional('BEGIN'),
+      optional($.statement_list),
+      'END_FUNCTION',
+      optional(';')
+    )),
 
     // Data block definition
     data_block: $ => seq(
       'DATA_BLOCK',
-      optional($.string),
-      $.identifier,
-      repeat($.variable_declaration_section),
-      optional(seq(
-        $.statement_list,
-      )),
+      $.string,
+      $.configuration_block,
+      $.version_declaration,
+      repeat(choice($.comment, $.variable_declaration_section)),
+      'BEGIN',
+      optional($.statement_list),
       'END_DATA_BLOCK'
     ),
 
     // Organization block (specific to Siemens PLC)
     organization_block: $ => seq(
       'ORGANIZATION_BLOCK',
-      optional($.string),
-      $.identifier,
-      repeat($.variable_declaration_section),
-      optional(seq(
-        $.statement_list,
-      )),
+      $.string,
+      $.configuration_block,
+      $.version_declaration,
+      repeat(choice($.comment, $.variable_declaration_section)),
+      'BEGIN',
+      optional($.statement_list),
       'END_ORGANIZATION_BLOCK'
+    ),
+
+    // Configuration block
+    configuration_block: $ => seq(
+      '{',
+      repeat(seq(
+        $.identifier,
+        ':=',
+        choice($.string_literal, $.number, $.boolean_literal),
+        optional(';')
+      )),
+      '}'
+    ),
+
+    // Version declaration
+    version_declaration: $ => seq(
+      'VERSION', ':', $.number
     ),
 
     // Variable declaration sections
@@ -157,13 +190,15 @@ module.exports = grammar({
       choice(
         $.data_type,
         $.array_declaration,
-        $.struct_declaration
+        $.struct_declaration,
+        $.string_declaration
       ),
       optional(seq(
         ':=',
         $.expression
       )),
-      ';'
+      ';',
+      optional($.comment)
     ),
 
     at_directive: $ => seq(
@@ -180,7 +215,8 @@ module.exports = grammar({
       choice(
         $.data_type,
         $.array_declaration,
-        $.struct_declaration
+        $.struct_declaration,
+        $.string_declaration
       ),
       ';'
     ),
@@ -203,6 +239,17 @@ module.exports = grammar({
       $.data_type
     ),
 
+    // string declaration
+    string_declaration: $ => seq(
+      'STRING',
+      optional(seq(
+        '[',
+        $.number,
+        ']'
+      ))
+    ),
+
+    // Range for array dimensions
     range: $ => seq(
       $.expression,
       '..',
@@ -244,10 +291,17 @@ module.exports = grammar({
     ),
 
     // Statement list
-    statement_list: $ => repeat1($.statement),
+    statement_list: $ => prec.right(repeat1(
+      choice(
+        $.statement,
+        $.comment,
+        $.block_comment
+      )
+    )),
 
     statement: $ => choice(
       $.assignment_statement,
+      $.variable_declaration_statement, // Added variable declaration as a statement
       $.if_statement,
       $.case_statement,
       $.for_statement,
@@ -256,6 +310,24 @@ module.exports = grammar({
       $.function_call_statement,
       $.return_statement,
       $.region,
+      $.comment, // Allow comments as statements
+      ';'
+    ),
+    
+    // Variable declaration as a statement
+    variable_declaration_statement: $ => seq(
+      $.identifier,
+      ':',
+      choice(
+        $.data_type,
+        $.array_declaration,
+        $.struct_declaration,
+        $.string_declaration
+      ),
+      optional(seq(
+        ':=',
+        $.expression
+      )),
       ';'
     ),
 
@@ -268,7 +340,7 @@ module.exports = grammar({
     ),
 
     // If statement
-    if_statement: $ => seq(
+    if_statement: $ => prec.right(seq(
       'IF',
       $.expression,
       'THEN',
@@ -276,8 +348,8 @@ module.exports = grammar({
       repeat($.elsif_clause),
       optional($.else_clause),
       'END_IF',
-      ';'
-    ),
+      optional(';')
+    )),
 
     elsif_clause: $ => seq(
       'ELSIF',
@@ -292,25 +364,23 @@ module.exports = grammar({
     ),
 
     // Case statement
-    case_statement: $ => seq(
+    case_statement: $ => prec.right(seq(
       'CASE',
       $.expression,
       'OF',
       repeat1($.case_element),
       optional($.else_case),
       'END_CASE',
-      ';'
-    ),
+      optional(';')
+    )),
 
-    // Apply right associativity to ensure case elements consume all statements
-    // until the next case label or END_CASE
     case_element: $ => prec.right(seq(
       choice(
         $.case_value,
         $.case_range
       ),
       ':',
-      repeat1($.statement)
+      optional($.statement_list)
     )),
 
     case_value: $ => $.expression,
@@ -327,7 +397,7 @@ module.exports = grammar({
     ),
 
     // For statement
-    for_statement: $ => seq(
+    for_statement: $ => prec.right(seq(
       'FOR',
       $.identifier,
       ':=',
@@ -341,28 +411,28 @@ module.exports = grammar({
       'DO',
       optional($.statement_list),
       'END_FOR',
-      ';'
-    ),
+      optional(';')
+    )),
 
     // While statement
-    while_statement: $ => seq(
+    while_statement: $ => prec.right(seq(
       'WHILE',
       $.expression,
       'DO',
       optional($.statement_list),
       'END_WHILE',
-      ';'
-    ),
+      optional(';')
+    )),
 
     // Repeat statement
-    repeat_statement: $ => seq(
+    repeat_statement: $ => prec.right(seq(
       'REPEAT',
       optional($.statement_list),
       'UNTIL',
       $.expression,
       'END_REPEAT',
-      ';'
-    ),
+      optional(';')
+    )),
 
     // Return statement
     return_statement: $ => seq(
@@ -371,12 +441,19 @@ module.exports = grammar({
     ),
 
     // Region
-    region: $ => seq(
+    region: $ => prec.right(seq(
       'REGION',
-      optional($.string_literal),
+      optional(choice(
+        $.string_literal, 
+        $.identifier,
+        // Allow region names that are multiple words (as seen in the examples)
+        /[a-zA-Z_][a-zA-Z0-9_ ]+/,
+        $.comment
+      )),
       optional($.statement_list),
-      'END_REGION'
-    ),
+      'END_REGION',
+      optional(';')
+    )),
 
     // Function call as a statement
     function_call_statement: $ => seq(
@@ -406,7 +483,6 @@ module.exports = grammar({
       repeat($.variable_selector)
     ),
 
-    // Removed $.function_call here to avoid ambiguity with expression containing function_call
     variable_base: $ => $.identifier,
 
     variable_selector: $ => choice(
@@ -456,7 +532,7 @@ module.exports = grammar({
     ),
 
     // Literals
-    literal: $ => choice(
+    literal: $ => prec(1, choice(
       $.number,
       $.string_literal,
       $.boolean_literal,
@@ -464,7 +540,7 @@ module.exports = grammar({
       $.date_literal,
       $.date_time_literal,
       $.byte_string_literal
-    ),
+    )),
 
     number: $ => choice(
       // Integer literals
@@ -482,40 +558,26 @@ module.exports = grammar({
       'FALSE'
     ),
 
-    time_literal: $ => /[tT]#(([0-9]+d)?([0-9]+h)?([0-9]+m)?([0-9]+s)?([0-9]+ms)?)/,
+    // Ensure time literals are properly tokenized and only appear inside literals
+    time_literal: $ => prec(0, token(/[tT]#[0-9]+([mM][sS]|[dDhHmMsS])/)),
 
-    date_literal: $ => /[dD]#[0-9]{4}-[0-9]{2}-[0-9]{2}/,
+    date_literal: $ => token(/[dD]#[0-9]{4}-[0-9]{2}-[0-9]{2}/),
 
-    date_time_literal: $ => /DT#[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]+)?/,
+    date_time_literal: $ => token(/DT#[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]+)?/),
 
-    byte_string_literal: $ => /BYTE#[0-9A-Fa-f][0-9A-Fa-f_]*/,
+    byte_string_literal: $ => token(/BYTE#[0-9A-Fa-f][0-9A-Fa-f_]*/),
 
-    string_literal: $ => seq(
-      "'",
-      repeat(choice(
-        token.immediate(/[^'\\]/),
-        $.escape_sequence
-      )),
-      "'"
-    ),
-
-    escape_sequence: $ => token.immediate(
-      seq('\\', /['"\\nrt]/)
-    ),
+    // Define string literals with support for escape sequences
+    string_literal: $ => token(choice(
+      // Single quoted strings with escape sequences
+      /'(?:[^'\\]|\\.)*'/,
+      // Double quoted strings with escape sequences
+      /"(?:[^"\\]|\\.)*"/
+    )),
 
     // Comments
-    comment: $ => choice(
-      $.line_comment,
-      $.block_comment
-    ),
-
-    line_comment: $ => token(seq('//', /.*/)),
-
-    block_comment: $ => token(seq(
-      '(*',
-      /[^*]*\*+([^)*][^*]*\*+)*/,
-      ')'
-    )),
+    comment: $ => token(seq('//', /.*/)),
+    block_comment: $ => token(seq('(*', /[\s\S]*?\*\)/)),
 
     // Identifier
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,

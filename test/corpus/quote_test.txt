@@ -1,11 +1,9 @@
 ===================
-String Literals Test
+Quote Test
 ===================
 
 message1 := 'Single quotes';
 message2 := "Double quotes";
-message3 := 'Single quotes with escape: \' ';
-message4 := "Double quotes with escape: \" ";
 
 ---
 
@@ -25,21 +23,4 @@ message4 := "Double quotes with escape: \" ";
           (identifier)))
       (expression
         (literal
-          (string_literal)))))
-  (statement
-    (assignment_statement
-      (variable_access
-        (variable_base
-          (identifier)))
-      (expression
-        (literal
-          (string_literal)))))
-  (statement
-    (assignment_statement
-      (variable_access
-        (variable_base
-          (identifier)))
-      (expression
-        (literal
           (string_literal))))))
-
