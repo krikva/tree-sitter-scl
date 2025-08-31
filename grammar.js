@@ -288,6 +288,15 @@ module.exports = grammar({
       'ANY',
       'POINTER',
       'VOID',
+      // Additional types from TM language
+      'COUNTER',
+      'S5TIME',
+      'TIMER',
+      'IEC_TIMER',
+      'TON_TIME',
+      'TOF_TIME',
+      'TP_TIME',
+      'ENO',
       // User defined types
       $.identifier
     ),
@@ -311,8 +320,47 @@ module.exports = grammar({
       $.repeat_statement,
       $.function_call_statement,
       $.return_statement,
+      $.continue_statement,
+      $.break_statement,
+      $.goto_statement,
+      $.label_statement,
+      $.exit_statement,
       $.region,
       $.comment, // Allow comments as statements
+      ';'
+    ),
+    
+    // Continue statement
+    continue_statement: $ => seq(
+      'CONTINUE',
+      ';'
+    ),
+    
+    // Break statement
+    break_statement: $ => seq(
+      'BREAK',
+      ';'
+    ),
+    
+    // Goto statement
+    goto_statement: $ => seq(
+      'GOTO',
+      $.identifier,
+      ';'
+    ),
+    
+    // Label statement
+    label_statement: $ => prec.right(seq(
+      'LABEL',
+      $.identifier,
+      optional($.statement_list),
+      'END_LABEL',
+      optional(';')
+    )),
+    
+    // Exit statement
+    exit_statement: $ => seq(
+      'EXIT',
       ';'
     ),
     
@@ -560,7 +608,11 @@ module.exports = grammar({
     ),
 
     // Ensure time literals are properly tokenized and only appear inside literals
-    time_literal: $ => prec(0, token(/[tT]#[0-9]+([mM][sS]|[dDhHmMsS])/)),
+    // Comprehensive pattern for time literals that matches both simple and complex formats
+    time_literal: $ => prec(0, token(choice(
+      /[tT]#[0-9]+([mM][sS]|[dDhHmMsS])/,
+      /[tT|TIME]#(((\d+)?d)?((\d+)?h)?((\d+)?m)?((\d+)?s)?((\d+)?ms)?)/
+    ))),
 
     date_literal: $ => token(/[dD]#[0-9]{4}-[0-9]{2}-[0-9]{2}/),
 
@@ -578,7 +630,10 @@ module.exports = grammar({
 
     // Comments
     comment: $ => token(seq('//', /.*/)),
-    block_comment: $ => token(seq('(*', /[\s\S]*?\*\)/)),
+    block_comment: $ => token(choice(
+      seq('(*', /[\s\S]*?\*\)/),
+      seq('(/*', /[\s\S]*?\*\/\)/)
+    )),
 
     // Identifier
     identifier: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,

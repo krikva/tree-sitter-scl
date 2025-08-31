@@ -1023,6 +1023,38 @@
           "value": "VOID"
         },
         {
+          "type": "STRING",
+          "value": "COUNTER"
+        },
+        {
+          "type": "STRING",
+          "value": "S5TIME"
+        },
+        {
+          "type": "STRING",
+          "value": "TIMER"
+        },
+        {
+          "type": "STRING",
+          "value": "IEC_TIMER"
+        },
+        {
+          "type": "STRING",
+          "value": "TON_TIME"
+        },
+        {
+          "type": "STRING",
+          "value": "TOF_TIME"
+        },
+        {
+          "type": "STRING",
+          "value": "TP_TIME"
+        },
+        {
+          "type": "STRING",
+          "value": "ENO"
+        },
+        {
           "type": "SYMBOL",
           "name": "identifier"
         }
@@ -1093,11 +1125,132 @@
         },
         {
           "type": "SYMBOL",
+          "name": "continue_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "break_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "goto_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "label_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exit_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "region"
         },
         {
           "type": "SYMBOL",
           "name": "comment"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "continue_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "CONTINUE"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "break_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "BREAK"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "goto_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "GOTO"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "label_statement": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "LABEL"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "statement_list"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "STRING",
+            "value": "END_LABEL"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ";"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "exit_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "EXIT"
         },
         {
           "type": "STRING",
@@ -2388,8 +2541,17 @@
       "content": {
         "type": "TOKEN",
         "content": {
-          "type": "PATTERN",
-          "value": "[tT]#[0-9]+([mM][sS]|[dDhHmMsS])"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[tT]#[0-9]+([mM][sS]|[dDhHmMsS])"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[tT|TIME]#(((\\d+)?d)?((\\d+)?h)?((\\d+)?m)?((\\d+)?s)?((\\d+)?ms)?)"
+            }
+          ]
         }
       }
     },
@@ -2449,15 +2611,33 @@
     "block_comment": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "STRING",
-            "value": "(*"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "(*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[\\s\\S]*?\\*\\)"
+              }
+            ]
           },
           {
-            "type": "PATTERN",
-            "value": "[\\s\\S]*?\\*\\)"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "(/*"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[\\s\\S]*?\\*\\/\\)"
+              }
+            ]
           }
         ]
       }
