@@ -1,0 +1,240 @@
+FUNCTION_BLOCK "BuiltInFunctionsTest"
+//^ keyword
+
+VAR
+//^ keyword
+    // Math function results
+    // ^ comment
+    absResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    sqrResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    sqrtResult : REAL;
+    //^ variable
+    //           ^ type.builtin
+    expResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    lnResult : REAL;
+    //^ variable
+    //         ^ type.builtin
+    logResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    roundResult : REAL;
+    //^ variable
+    //            ^ type.builtin
+    truncResult : REAL;
+    //^ variable
+    //            ^ type.builtin
+    
+    // Trigonometric function results
+    sinResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    cosResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    tanResult : REAL;
+    //^ variable
+    //          ^ type.builtin
+    asinResult : REAL;
+    //^ variable
+    //           ^ type.builtin
+    acosResult : REAL;
+    //^ variable
+    //           ^ type.builtin
+    atanResult : REAL;
+    //^ variable
+    //           ^ type.builtin
+    
+    // Bit operation results
+    rolResult : DWORD;
+    //^ variable
+    //          ^ type.builtin
+    rorResult : DWORD;
+    //^ variable
+    //          ^ type.builtin
+    shlResult : DWORD;
+    //^ variable
+    //          ^ type.builtin
+    shrResult : DWORD;
+    //^ variable
+    //          ^ type.builtin
+    
+    // Selection function results
+    selResult : BOOL;
+    //^ variable
+    //          ^ type.builtin
+    maxResult : INT;
+    //^ variable
+    //          ^ type.builtin
+    minResult : INT;
+    //^ variable
+    //          ^ type.builtin
+    limitResult : INT;
+    //^ variable
+    //            ^ type.builtin
+    muxResult : INT;
+    //^ variable
+    //          ^ type.builtin
+    
+    // String function results
+    concatResult : STRING;
+    //^ variable
+    //             ^ type.builtin
+    valStrgResult : STRING;
+    //^ variable
+    //              ^ type.builtin
+    strgValResult : INT;
+    //^ variable
+    //              ^ type.builtin
+    sConvResult : STRING;
+    //^ variable
+    //            ^ type.builtin
+END_VAR
+// ^ keyword
+
+BEGIN
+// ^ keyword
+
+    // Math functions
+    absResult := ABS(10.5);
+    //^ variable
+    //         ^ operator
+    //             ^ function.call
+    //                ^ constant.numeric
+    sqrResult := SQR(3.0);
+    //^ variable
+    //         ^ operator
+    //             ^ function.call
+    sqrtResult := SQRT(16.0);
+    //^ variable
+    //          ^ operator
+    //              ^ function.call
+    expResult := EXP(2.0);
+    //^ variable
+    //         ^ operator
+    //             ^ function.call
+    lnResult := LN(10.0);
+    //^ variable
+    //        ^ operator
+    //           ^ function.call
+    logResult := LOG(100.0);
+    //^ variable
+    //         ^ operator
+    //             ^ function.call
+    roundResult := ROUND(10.7);
+    //^ variable
+    //           ^ operator
+    //               ^ function.call
+    truncResult := TRUNC(10.7);
+    //^ variable
+    //           ^ operator
+    //               ^ function.call
+    
+    // Trigonometric functions
+    sinResult := SIN(1.57);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    cosResult := COS(0.0);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    tanResult := TAN(0.78);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    asinResult := ASIN(0.5);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    acosResult := ACOS(0.5);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    atanResult := ATAN(1.0);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    
+    // Bit operations
+    rolResult := ROL(16#12345678, 8);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                ^ constant.numeric
+    rorResult := ROR(16#12345678, 8);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    shlResult := SHL(16#12345678, 4);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    shrResult := SHR(16#12345678, 4);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    
+    // Selection functions
+    selResult := SEL(TRUE, FALSE, TRUE);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                ^ constant.builtin.boolean
+    maxResult := MAX(10, 20);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    minResult := MIN(10, 20);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    limitResult := LIMIT(10, 25, 30);
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    muxResult := MUX(2, 10, 20, 30, 40, 50);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    
+    // String functions
+    concatResult := CONCAT('Hello ', 'World');
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    //                     ^ string
+    valStrgResult := VAL_STRG(123, 10);
+    // ^ variable
+    //             ^ operator
+    //                ^ function.call
+    strgValResult := STRG_VAL('123');
+    // ^ variable
+    //             ^ operator
+    //                ^ function.call
+    sConvResult := S_CONV('test');
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    
+    // Type conversion functions
+    absResult := DINT_TO_REAL(100);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    strgValResult := STRING_TO_INT('123');
+    // ^ variable
+    //             ^ operator
+    //                ^ function.call
+    valStrgResult := INT_TO_STRING(123);
+    // ^ variable
+    //             ^ operator
+    //                ^ function.call
+    
+END_FUNCTION_BLOCK
+// ^ keyword

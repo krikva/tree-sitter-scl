@@ -1,0 +1,74 @@
+FUNCTION_BLOCK "StringFunctionsTest"
+//^ keyword
+
+VAR
+//^ keyword
+    // String variables
+    // ^ comment
+    string1 : STRING := 'Hello';
+    //^ variable
+    //         ^ type.builtin
+    //                    ^ string
+    string2 : STRING := 'World';
+    //^ variable
+    //          ^ type.builtin
+    //                     ^ string
+    wideString1 : WSTRING := "Hello";
+    //^ variable
+    //             ^ type.builtin
+    //                         ^ string
+    wideString2 : WSTRING := "World";
+    //^ variable
+    //             ^ type.builtin
+    //                         ^ string
+    
+    // String function results
+    // ^ comment
+    concatResult : STRING;
+    //^ variable
+    //              ^ type.builtin
+    deleteResult : STRING;
+    //^ variable
+    //              ^ type.builtin
+    findResult : INT;
+    //^ variable
+    //           ^ type.builtin
+    insertResult : STRING;
+    //^ variable
+    //              ^ type.builtin
+    leftResult : STRING;
+    //^ variable
+    //            ^ type.builtin
+    rightResult : STRING;
+    //^ variable
+    //             ^ type.builtin
+    midResult : STRING;
+    //^ variable
+    //           ^ type.builtin
+    lenResult : INT;
+    //^ variable
+    //           ^ type.builtin
+    replaceResult : STRING;
+    //^ variable
+    //               ^ type.builtin
+    
+    // String conversion results
+    // ^ comment
+    valStrgResult : STRING;
+    //^ variable
+    //               ^ type.builtin
+    strgValResult : INT;
+    //^ variable
+    //               ^ type.builtin
+    stringToWStringResult : WSTRING;
+    //^ variable
+    //                       ^ type.builtin
+    wstringToStringResult : STRING;
+    //^ variable
+    //                        ^ type.builtin
+    
+    // Date and Time concatenation
+    // ^ comment
+    dateValue : DATE := D#2023-01-01;
+    //^ variable
+    //           ^ type.builtin

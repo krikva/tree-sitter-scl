@@ -1,0 +1,104 @@
+// Extended SCL Highlighting Test File
+
+// This file tests various additional SCL language features
+// and how they should be highlighted by the tree-sitter grammar.
+
+FUNCTION_BLOCK ExtendedHighlightTest
+//^ keyword
+
+    // Variable declarations with various data types
+    VAR
+    //^ keyword
+        // Basic types
+        boolVar : BOOL := TRUE;
+        //^ variable
+        //         ^ type.builtin
+        //                 ^ constant.builtin.boolean
+        intVar : INT := 42;
+        //^ variable
+        //       ^ type.builtin
+        //               ^ constant.numeric
+        realVar : REAL := 3.14;
+        // ^ variable
+        //         ^ type.builtin
+        //                 ^ constant.numeric
+        
+        // Special types
+        counterVar : COUNTER;
+        // ^ variable
+        //            ^ type.builtin
+        timerVar : TIMER;
+        // ^ variable
+        //          ^ type.builtin
+        s5timeVar : S5TIME;
+        // ^ variable
+        //           ^ type.builtin
+        
+        // Time and date
+        timeVar : TIME := T#5s;
+        // ^ variable
+        //         ^ type.builtin
+        //                 ^ constant.builtin
+        dateVar : DATE := D#2025-08-31;
+        // ^ variable
+        //         ^ type.builtin
+        //                 ^ constant.builtin
+        dtVar : DATE_AND_TIME := DT#2025-08-31-10:30:00;
+        // ^ variable
+        //       ^ type.builtin
+        //                          ^ constant.builtin
+        
+        // Time with more complex format
+        complexTime : TIME := TIME#1h30m15s;
+        // ^ variable
+        //             ^ type.builtin
+        //                       ^ constant.builtin
+    END_VAR
+    // ^ keyword
+    
+    // Test for multi-line comment styles
+    (* This is a multi-line comment
+       using the standard style *)
+    // ^ comment.block
+    
+    (/* This is a multi-line comment
+        using the alternative style */)
+    // ^ comment.block
+
+BEGIN
+// ^ keyword
+    
+    // Control flow statements
+    FOR i := 1 TO 10 DO
+    //^ keyword
+    //  ^ variable
+    //          ^ keyword
+    //                ^ keyword
+        IF i = 5 THEN
+     // ^ keyword
+        //   ^ operator
+        //     ^ constant.numeric
+            CONTINUE;  // Skip iteration
+        //  ^ keyword
+        END_IF;
+        // ^ keyword
+    END_FOR;
+    // ^ keyword
+    
+    // Region test
+    REGION Initialization
+    // ^ keyword
+    //       ^ comment
+        // Code for initialization
+        intVar := 0;
+        realVar := 0.0;
+    END_REGION;
+    // ^ keyword
+    
+    // S7 attributes test
+    {S7_SetOBStatus := 'TRUE'}  // Attribute test
+    // ^ attribute
+    
+END_FUNCTION_BLOCK
+// ^ keyword
+

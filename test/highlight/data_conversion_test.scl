@@ -1,0 +1,268 @@
+FUNCTION_BLOCK "DataConversionTest"
+//^ keyword
+
+VAR
+//^ keyword
+    // Boolean conversion results
+    boolToByte : BYTE;
+    //^ variable
+    //           ^ type.builtin
+    boolToDWord : DWORD;
+    //^ variable
+    //            ^ type.builtin
+    boolToWord : WORD;
+    //^ variable
+    //           ^ type.builtin
+    boolToInt : INT;
+    //^ variable
+    //          ^ type.builtin
+    boolToDInt : DINT;
+    //^ variable
+    //           ^ type.builtin
+    
+    // Byte conversion results
+    byteToBool : BOOL;
+    //^ variable
+    //           ^ type.builtin
+    byteToChar : CHAR;
+    //^ variable
+    //           ^ type.builtin
+    byteToDWord : DWORD;
+    //^ variable
+    //            ^ type.builtin
+    byteToInt : INT;
+    // ^ variable
+    //          ^ type.builtin
+    byteToDInt : DINT;
+    // ^ variable
+    //           ^ type.builtin
+    byteToWord : WORD;
+    // ^ variable
+    //           ^ type.builtin
+    
+    // INT conversions
+    intToBool : BOOL;
+    // ^ variable
+    //          ^ type.builtin
+    intToByte : BYTE;
+    // ^ variable
+    //          ^ type.builtin
+    intToWord : WORD;
+    // ^ variable
+    //          ^ type.builtin
+    intToDInt : DINT;
+    // ^ variable
+    //          ^ type.builtin
+    intToReal : REAL;
+    // ^ variable
+    //          ^ type.builtin
+    intToString : STRING;
+    // ^ variable
+    //            ^ type.builtin
+    
+    // REAL conversions
+    realToDWord : DWORD;
+    // ^ variable
+    //            ^ type.builtin
+    realToInt : INT;
+    // ^ variable
+    //          ^ type.builtin
+    realToDInt : DINT;
+    // ^ variable
+    //           ^ type.builtin
+    realToString : STRING;
+    // ^ variable
+    //             ^ type.builtin
+    
+    // STRING conversions
+    stringToChar : CHAR;
+    // ^ variable
+    //             ^ type.builtin
+    stringToInt : INT;
+    // ^ variable
+    //            ^ type.builtin
+    stringToReal : REAL;
+    // ^ variable
+    //             ^ type.builtin
+    
+    // TIME conversions
+    timeToDInt : DINT;
+    // ^ variable
+    //           ^ type.builtin
+    
+    // BCD conversions
+    bcdToInt : INT;
+    // ^ variable
+    //         ^ type.builtin
+    bcdToDInt : DINT;
+    // ^ variable
+    //          ^ type.builtin
+END_VAR
+// ^ keyword
+
+BEGIN
+// ^ keyword
+
+    // Boolean conversions
+    boolToByte := BOOL_TO_BYTE(TRUE);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                          ^ constant.builtin.boolean
+    boolToDWord := BOOL_TO_DWORD(FALSE);
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    //                             ^ constant.builtin.boolean
+    boolToWord := BOOL_TO_WORD(TRUE);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                          ^ constant.builtin.boolean
+    boolToInt := BOOL_TO_INT(TRUE);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.builtin.boolean
+    boolToDInt := BOOL_TO_DINT(FALSE);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                           ^ constant.builtin.boolean
+    
+    // Byte conversions
+    byteToBool := BYTE_TO_BOOL(16#01);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                         ^ constant.numeric
+    byteToChar := BYTE_TO_CHAR(16#41);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                          ^ constant.numeric
+    byteToDWord := BYTE_TO_DWORD(16#FF);
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    //                            ^ constant.numeric
+    byteToInt := BYTE_TO_INT(16#7F);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.numeric
+    byteToDInt := BYTE_TO_DINT(16#7F);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                          ^ constant.numeric
+    byteToWord := BYTE_TO_WORD(16#FF);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                          ^ constant.numeric
+    
+    // INT conversions
+    intToBool := INT_TO_BOOL(1);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                       ^ constant.numeric
+    intToByte := INT_TO_BYTE(255);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.numeric
+    intToWord := INT_TO_WORD(32767);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                         ^ constant.numeric
+    intToDInt := INT_TO_DINT(32767);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.numeric
+    intToReal := INT_TO_REAL(12345);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.numeric
+    intToString := INT_TO_STRING(12345);
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    //                            ^ constant.numeric
+    
+    // REAL conversions
+    realToDWord := REAL_TO_DWORD(123.45);
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    //                            ^ constant.numeric
+    realToInt := REAL_TO_INT(123.45);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.numeric
+    realToDInt := REAL_TO_DINT(123.45);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                          ^ constant.numeric
+    realToString := REAL_TO_STRING(123.45);
+    // ^ variable
+    //            ^ operator
+    //               ^ function.call
+    //                              ^ constant.numeric
+    
+    // STRING conversions
+    stringToChar := STRING_TO_CHAR('A');
+    // ^ variable
+    //            ^ operator
+    //               ^ function.call
+    //                              ^ string
+    stringToInt := STRING_TO_INT('12345');
+    // ^ variable
+    //           ^ operator
+    //              ^ function.call
+    //                              ^ string
+    stringToReal := STRING_TO_REAL('123.45');
+    // ^ variable
+    //            ^ operator
+    //               ^ function.call
+    //                               ^ string
+    
+    // TIME conversions
+    timeToDInt := TIME_TO_DINT(T#10s);
+    // ^ variable
+    //          ^ operator
+    //             ^ function.call
+    //                           ^ constant.builtin
+    
+    // BCD conversions
+    bcdToInt := BCD_TO_INT(16#12);
+    // ^ variable
+    //        ^ operator
+    //           ^ function.call
+    //                      ^ constant.numeric
+    bcdToDInt := BCD_TO_DINT(16#12345678);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                        ^ constant.numeric
+    
+    // Word/DWord BCD conversions
+    bcdToInt := WORD_BCD_TO_INT(16#1234);
+    // ^ variable
+    //        ^ operator
+    //           ^ function.call
+    //                           ^ constant.numeric
+    bcdToDInt := DWORD_BCD_TO_DINT(16#12345678);
+    // ^ variable
+    //         ^ operator
+    //            ^ function.call
+    //                              ^ constant.numeric
+    
+END_FUNCTION_BLOCK
+// ^ keyword
